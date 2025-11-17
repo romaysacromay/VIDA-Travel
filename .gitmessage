@@ -1,0 +1,19 @@
+# <type>: <subject>
+
+# Type: feat|fix|docs|style|refactor|test|chore
+# Subject: Brief description (50 chars max)
+
+# Body (optional): Explain what and why
+# 
+
+# Footer (optional): Issue references
+# Closes #123
+# 
+
+# Example commits:
+# feat: Add gamified landing page with step-by-step journey
+# fix: Resolve duplicate style variable in app.js
+# docs: Update CI/CD setup documentation
+# style: Improve button hover animations
+# refactor: Simplify destination selector component
+

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="VIDA Travel - Planifica tus vacaciones soñadas con nuestro programa de crédito de vacaciones">
-  <title>VIDA Travel - Crédito de Vacaciones</title>
+  <meta name="description" content="VIDA Travel - Tu viaje soñado con 0% interés. Planifica, ahorra y viaja por México">
+  <title>VIDA Travel - Viaja Ahora, Paga Después | 0% Interés</title>
   
   <!-- Firebase SDK -->
   <script type="module">
@@ -14,7 +14,6 @@
     import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
     import { getRemoteConfig } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-remote-config.js';
     
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDXLqx9s0qv7UbQPP8Ppew0s2qUcRL4ZX0",
       authDomain: "vida-travel-vacation-credit.firebaseapp.com",
@@ -24,11 +23,9 @@
       appId: "1:8569596534:web:8ef6043a23ab7288034d57"
     };
     
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     let analytics = null;
     try {
-      // Only initialize analytics if measurementId is available
       if (firebaseConfig.measurementId && firebaseConfig.measurementId !== 'G-XXXXXXXXXX') {
         analytics = getAnalytics(app);
       }
@@ -38,196 +35,385 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-    // Initialize Remote Config (optional - app works without it)
     let remoteConfig = null;
     try {
       remoteConfig = getRemoteConfig(app);
-    // Set Remote Config settings
-    remoteConfig.settings = {
-      minimumFetchIntervalMillis: 3600000, // 1 hour
-    };
-    
-    // Set default values for Remote Config
-    remoteConfig.defaultConfig = {
-      package_price_base: 5000,
-      loan_size_base: 3000,
-      savings_period_base: 12,
-      bonus_incentive_base: 0,
-      messaging_headline_control: "0% de Interés Garantizado en tu Crédito de Viaje",
-      zero_interest_headline_es: "0% de Interés Garantizado",
-      zero_interest_headline_en: "0% Interest Guaranteed"
-    };
+      remoteConfig.settings = {
+        minimumFetchIntervalMillis: 3600000,
+      };
+      remoteConfig.defaultConfig = {
+        package_price_base: 5000,
+        loan_size_base: 3000,
+        savings_period_base: 12,
+        bonus_incentive_base: 0,
+        messaging_headline_control: "0% de Interés Garantizado en tu Crédito de Viaje",
+        zero_interest_headline_es: "0% de Interés Garantizado",
+        zero_interest_headline_en: "0% Interest Guaranteed"
+      };
     } catch (e) {
       console.warn('Remote Config initialization failed:', e);
     }
     
-    // Make Firebase instances globally available
     window.firebaseApp = app;
     window.firebaseAnalytics = analytics;
-    window.firebaseLogEvent = logEvent; // Export logEvent function
+    window.firebaseLogEvent = logEvent;
     window.firebaseAuth = auth;
     window.firebaseDb = db;
     window.firebaseRemoteConfig = remoteConfig;
-    
-    // Remote Config is optional - app works with defaults
-    // Remote Config can be configured later via Firebase Console if needed
   </script>
   
-  <!-- Google Analytics for Firebase -->
-  <!-- Only load if measurementId is configured -->
-  <script>
-    const measurementId = 'G-XXXXXXXXXX';
-    if (measurementId && measurementId !== 'G-XXXXXXXXXX') {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-      document.head.appendChild(script);
-      
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-      gtag('config', measurementId);
-    }
-  </script>
-  
-  <!-- Meta Pixel Code -->
-  <!-- Only load if pixel ID is configured -->
-  <script>
-    const metaPixelId = 'YOUR_META_PIXEL_ID';
-    if (metaPixelId && metaPixelId !== 'YOUR_META_PIXEL_ID') {
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', metaPixelId);
-    fbq('track', 'PageView');
-      
-      const noscript = document.createElement('noscript');
-      const img = document.createElement('img');
-      img.height = 1;
-      img.width = 1;
-      img.style.display = 'none';
-      img.src = `https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`;
-      noscript.appendChild(img);
-      document.body.appendChild(noscript);
-    }
-  </script>
-  <!-- End Meta Pixel Code -->
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/booking-style.css">
 </head>
 <body>
+  <!-- Progress Bar at Top -->
+  <div class="top-progress-bar">
+    <div class="top-progress-fill" id="journey-progress"></div>
+  </div>
+
+  <!-- Header -->
   <header class="header">
     <div class="container">
       <div class="logo-container">
-        <img src="/images/vida-logo.png" alt="VIDA Travel Logo" class="logo" id="vida-logo" onerror="this.style.display='none'">
-        <h1 class="logo-text">VIDA Travel</h1>
+        <div class="logo-circle">
+          <span class="logo-emoji">✈️</span>
+        </div>
+        <h1 class="logo-text">VIDA <span class="logo-accent">Travel</span></h1>
       </div>
       <nav class="nav">
-        <a href="#how-it-works" data-i18n="nav.howItWorks">Cómo Funciona</a>
-        <a href="#simulator" data-i18n="nav.simulator">Simulador</a>
-        <a href="#chat" data-i18n="nav.chat">Chat</a>
+        <a href="#destinos" class="nav-link" data-i18n="nav.destinations">Destinos</a>
+        <a href="#como-funciona" class="nav-link" data-i18n="nav.howItWorks">Cómo Funciona</a>
+        <a href="#chat" class="nav-link" data-i18n="nav.chat">Chat</a>
       </nav>
       <div class="language-toggle">
         <button class="lang-btn active" data-lang="es-MX" aria-label="Español">
-          <span>🇲🇽</span> <span>ES</span>
+          🇲🇽 <span>ES</span>
         </button>
         <button class="lang-btn" data-lang="en-US" aria-label="English">
-          <span>🇺🇸</span> <span>EN</span>
+          🇺🇸 <span>EN</span>
         </button>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Hero Section with 0% Interest Messaging -->
-    <section class="hero">
-      <div class="zero-interest-badge">
-        <span data-i18n="zeroInterest.guarantee">0% de Interés Garantizado</span>
+    <!-- Hero Section - Completely Redesigned -->
+    <section class="hero-new">
+      <div class="hero-background">
+        <div class="hero-gradient"></div>
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
+        </div>
       </div>
-      <div class="container">
-        <h1 id="main-headline" class="hero-headline" data-i18n="hero.headline">0% de Interés Garantizado en tu Crédito de Viaje</h1>
-        <p class="hero-subtitle" data-i18n="hero.subtitle">Comienza a ahorrar para tu próxima aventura con el programa de crédito de vacaciones de VIDA</p>
-        <button class="cta-button" id="start-simulation-btn" data-i18n="hero.cta">Comenzar</button>
+      
+      <div class="container hero-content">
+        <div class="hero-badge" data-i18n="hero.badge">
+          <span class="badge-icon">✓</span> 0% Interés Garantizado
+        </div>
+        
+        <h1 class="hero-title" data-i18n="hero.title">
+          Tu Viaje Soñado<br>
+          <span class="hero-title-accent">Comienza Aquí</span>
+        </h1>
+        
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Ahorra semanalmente, viaja cuando quieras y paga el resto sin intereses.<br>
+          <strong>Tu aventura está a un clic de distancia</strong>
+        </p>
+        
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">0%</div>
+            <div class="stat-label" data-i18n="hero.stat1">Interés</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">80%</div>
+            <div class="stat-label" data-i18n="hero.stat2">Tú Ahorras</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">20%</div>
+            <div class="stat-label" data-i18n="hero.stat3">Prestamos</div>
+          </div>
+        </div>
+        
+        <button class="hero-cta-button" id="start-journey-btn">
+          <span data-i18n="hero.cta">Comenzar Mi Viaje</span>
+          <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="hero-trust-badges">
+          <div class="trust-badge">
+            <span class="trust-icon">🔒</span>
+            <span class="trust-text" data-i18n="hero.trust1">100% Seguro</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">⚡</span>
+            <span class="trust-text" data-i18n="hero.trust2">Aprobación Instantánea</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">❤️</span>
+            <span class="trust-text" data-i18n="hero.trust3">Miles de Familias Felices</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-scroll-indicator">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <p class="scroll-text" data-i18n="hero.scroll">Desliza para comenzar</p>
       </div>
     </section>
 
-    <!-- Zero Interest Badge Above Simulator -->
-    <section class="zero-interest-section">
+    <!-- Interactive Journey Section -->
+    <section class="journey-section" id="journey">
       <div class="container">
-        <div class="zero-interest-banner">
-          <span class="badge-icon">✓</span>
-          <span data-i18n="zeroInterest.badge">Financiamiento Sin Intereses Disponible</span>
+        <div class="journey-header">
+          <h2 class="section-title" data-i18n="journey.title">Planifica Tu Viaje en 4 Pasos</h2>
+          <p class="section-subtitle" data-i18n="journey.subtitle">Una experiencia simple y divertida para planear tus vacaciones perfectas</p>
+        </div>
+
+        <!-- Step Progress Indicator -->
+        <div class="step-progress">
+          <div class="step-item active" data-step="1">
+            <div class="step-circle">
+              <span class="step-number">1</span>
+              <span class="step-icon">🎯</span>
+            </div>
+            <p class="step-label" data-i18n="journey.step1">Destino</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="2">
+            <div class="step-circle">
+              <span class="step-number">2</span>
+              <span class="step-icon">👨‍👩‍👧‍👦</span>
+            </div>
+            <p class="step-label" data-i18n="journey.step2">Familia</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="3">
+            <div class="step-circle">
+              <span class="step-number">3</span>
+              <span class="step-icon">💰</span>
+            </div>
+            <p class="step-label" data-i18n="journey.step3">Finanzas</p>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="4">
+            <div class="step-circle">
+              <span class="step-number">4</span>
+              <span class="step-icon">📅</span>
+            </div>
+            <p class="step-label" data-i18n="journey.step4">Fechas</p>
+          </div>
+        </div>
+
+        <!-- Journey Form Container -->
+        <div class="journey-form-container">
+          <form id="journey-form">
+            
+            <!-- Step 1: Destination Selection -->
+            <div class="journey-step active" data-step="1">
+              <div class="step-content">
+                <h3 class="step-title" data-i18n="step1.title">¿A dónde quieres viajar?</h3>
+                <p class="step-description" data-i18n="step1.description">Selecciona tu destino favorito en México</p>
+                
+                <div id="destination-selector-container" class="destination-cards-grid"></div>
+                
+                <div class="step-actions">
+                  <button type="button" class="btn-next" data-next-step="2" disabled>
+                    <span data-i18n="step.continue">Continuar</span>
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Family Composition -->
+            <div class="journey-step" data-step="2">
+              <div class="step-content">
+                <h3 class="step-title" data-i18n="step2.title">¿Quiénes viajan?</h3>
+                <p class="step-description" data-i18n="step2.description">Cuéntanos sobre tu grupo de viaje</p>
+                
+                <div class="family-selector">
+                  <div class="family-option">
+                    <label class="family-label" data-i18n="step2.adults">Adultos</label>
+                    <div class="counter-group">
+                      <button type="button" class="counter-btn" data-action="decrease" data-target="adults">-</button>
+                      <input type="number" id="adults" name="adults" value="2" min="1" max="2" readonly class="counter-input">
+                      <button type="button" class="counter-btn" data-action="increase" data-target="adults">+</button>
+                    </div>
+                    <p class="family-note" data-i18n="step2.adultsNote">Máximo 2 adultos</p>
+                  </div>
+                  
+                  <div class="family-option">
+                    <label class="family-label" data-i18n="step2.children">Niños (25% descuento)</label>
+                    <div class="counter-group">
+                      <button type="button" class="counter-btn" data-action="decrease" data-target="children">-</button>
+                      <input type="number" id="children" name="children" value="0" min="0" max="6" readonly class="counter-input">
+                      <button type="button" class="counter-btn" data-action="increase" data-target="children">+</button>
+                    </div>
+                    <p class="family-note" data-i18n="step2.childrenNote">Precio especial para niños</p>
+                  </div>
+                </div>
+                
+                <div class="step-actions">
+                  <button type="button" class="btn-back" data-prev-step="1">
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="transform: rotate(180deg);">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span data-i18n="step.back">Atrás</span>
+                  </button>
+                  <button type="button" class="btn-next" data-next-step="3">
+                    <span data-i18n="step.continue">Continuar</span>
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Financial Information -->
+            <div class="journey-step" data-step="3">
+              <div class="step-content">
+                <h3 class="step-title" data-i18n="step3.title">Planifica tu ahorro</h3>
+                <p class="step-description" data-i18n="step3.description">Ajusta estos valores para ver tu plan personalizado</p>
+                
+                <div class="financial-inputs">
+                  <div class="input-group">
+                    <label for="salary" class="input-label">
+                      <span class="label-icon">💵</span>
+                      <span data-i18n="step3.salary">Salario Mensual (MXN)</span>
+                    </label>
+                    <input type="number" id="salary" name="salary" placeholder="15000" min="0" step="100" class="input-field">
+                    <div class="input-hint" data-i18n="step3.salaryHint">Tu pago mensual será máximo 15% de esto</div>
+                  </div>
+                  
+                  <div class="input-group">
+                    <label for="deposit-amount" class="input-label">
+                      <span class="label-icon">🏦</span>
+                      <span data-i18n="step3.deposit">Depósito Semanal (MXN)</span>
+                    </label>
+                    <input type="number" id="deposit-amount" name="depositAmount" placeholder="500" min="0" step="100" class="input-field">
+                    <div class="input-hint" data-i18n="step3.depositHint">Cuanto más ahorres, más rápido viajas</div>
+                  </div>
+                </div>
+                
+                <!-- Real-time Financial Visualizer -->
+                <div id="financial-visualizer-container"></div>
+                
+                <div class="step-actions">
+                  <button type="button" class="btn-back" data-prev-step="2">
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="transform: rotate(180deg);">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span data-i18n="step.back">Atrás</span>
+                  </button>
+                  <button type="button" class="btn-next" data-next-step="4" disabled>
+                    <span data-i18n="step.continue">Continuar</span>
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Date Selection -->
+            <div class="journey-step" data-step="4">
+              <div class="step-content">
+                <h3 class="step-title" data-i18n="step4.title">¿Cuándo quieres viajar?</h3>
+                <p class="step-description" data-i18n="step4.description">Selecciona tus fechas ideales</p>
+                
+                <div class="date-picker-container">
+                  <div class="date-input-wrapper">
+                    <label for="travel-start" class="input-label">
+                      <span class="label-icon">📅</span>
+                      <span data-i18n="step4.checkIn">Fecha de entrada</span>
+                    </label>
+                    <input type="date" id="travel-start" name="travelStart" class="input-field">
+                  </div>
+                  
+                  <div class="date-separator">→</div>
+                  
+                  <div class="date-input-wrapper">
+                    <label for="travel-end" class="input-label">
+                      <span class="label-icon">📅</span>
+                      <span data-i18n="step4.checkOut">Fecha de salida</span>
+                    </label>
+                    <input type="date" id="travel-end" name="travelEnd" class="input-field">
+                  </div>
+                </div>
+                
+                <div id="date-validation-message" class="date-validation"></div>
+                
+                <div class="step-actions">
+                  <button type="button" class="btn-back" data-prev-step="3">
+                    <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="transform: rotate(180deg);">
+                      <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span data-i18n="step.back">Atrás</span>
+                  </button>
+                  <button type="submit" class="btn-submit" id="submit-journey-btn">
+                    <span data-i18n="step.calculate">✨ Calcular Mi Plan de Viaje</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-container" class="results-container" style="display: none;">
+          <div class="results-celebration">
+            <div class="celebration-confetti"></div>
+            <h3 class="results-title" data-i18n="results.title">🎉 ¡Tu Plan Está Listo!</h3>
+          </div>
+          <div id="results-content"></div>
         </div>
       </div>
     </section>
 
-    <!-- Simulator Section -->
-    <section id="simulator" class="simulator-section">
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="como-funciona">
       <div class="container">
-        <h2 data-i18n="simulator.title">Simulador de Crédito de Vacaciones</h2>
-        <form id="simulation-form" class="simulation-form">
-          <!-- Destination Selector -->
-          <div class="form-group">
-            <label data-i18n="simulator.destination">Destino</label>
-            <div id="destination-selector-container"></div>
-          </div>
-          
-          <!-- Date Picker (hidden initially, shown after financial inputs) -->
-          <div class="form-group" id="date-picker-group" style="display: none;">
-            <label for="travel-dates" data-i18n="simulator.checkIn">Fecha de entrada</label>
-            <div class="date-inputs">
-              <div class="date-input-wrapper">
-                <label for="travel-start" class="date-label" data-i18n="simulator.checkIn">Fecha de entrada</label>
-                <input type="date" id="travel-start" name="travelStart" required>
-              </div>
-              <span class="date-separator">→</span>
-              <div class="date-input-wrapper">
-                <label for="travel-end" class="date-label" data-i18n="simulator.checkOut">Fecha de salida</label>
-                <input type="date" id="travel-end" name="travelEnd" required>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Family Composition -->
-          <div class="form-group">
-            <label data-i18n="simulator.adults">Adultos</label>
-            <div class="family-composition">
-              <select id="adults" name="adults" required>
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-              </select>
-              <label for="children" data-i18n="simulator.children">Niños</label>
-              <input type="number" id="children" name="children" min="0" value="0" required>
-            </div>
-          </div>
-          
-          <!-- Financial Inputs -->
-          <div class="form-group">
-            <label for="salary" data-i18n="simulator.monthlySalary">Salario Mensual (MXN)</label>
-            <input type="number" id="salary" name="salary" required min="0" step="100" placeholder="15000" data-i18n="simulator.monthlySalary">
-          </div>
-          
-          <div class="form-group">
-            <label for="deposit-amount" data-i18n="simulator.weeklyDeposit">Depósito Semanal Deseado (MXN)</label>
-            <input type="number" id="deposit-amount" name="depositAmount" required min="0" step="100" placeholder="500" data-i18n="simulator.weeklyDeposit">
-          </div>
-          
-          <button type="submit" class="submit-button" id="submit-simulation-btn" data-i18n="simulator.calculate">Calcular Crédito de Vacaciones</button>
-        </form>
+        <h2 class="section-title" data-i18n="howItWorks.title">¿Cómo Funciona VIDA?</h2>
+        <p class="section-subtitle" data-i18n="howItWorks.subtitle">Un sistema simple y transparente para hacer tus sueños realidad</p>
         
-        <!-- Financial Visualizer Container -->
-        <div id="financial-visualizer-container"></div>
-        
-        <!-- Results Dashboard -->
-        <div id="simulation-results" class="simulation-results" style="display: none;">
-          <h3 data-i18n="results.title">Tu Plan de Crédito de Vacaciones</h3>
-          <div id="results-content"></div>
+        <div class="how-cards">
+          <div class="how-card">
+            <div class="how-icon">💰</div>
+            <h3 class="how-card-title" data-i18n="howItWorks.card1Title">1. Ahorra el 80%</h3>
+            <p class="how-card-text" data-i18n="howItWorks.card1Text">Deposita semanalmente para alcanzar el 80% del costo total de tu viaje</p>
+          </div>
+          
+          <div class="how-card">
+            <div class="how-icon">✈️</div>
+            <h3 class="how-card-title" data-i18n="howItWorks.card2Title">2. Viaja Ahora</h3>
+            <p class="how-card-text" data-i18n="howItWorks.card2Text">VIDA cubre el 20% restante con 0% de interés para que viajes cuando quieras</p>
+          </div>
+          
+          <div class="how-card">
+            <div class="how-icon">📅</div>
+            <h3 class="how-card-title" data-i18n="howItWorks.card3Title">3. Paga Cómodamente</h3>
+            <p class="how-card-text" data-i18n="howItWorks.card3Text">Reembolsa en 6-12 meses con pagos que nunca exceden el 15% de tu salario</p>
+          </div>
         </div>
       </div>
     </section>
@@ -235,31 +421,68 @@
     <!-- Chat Section -->
     <section id="chat" class="chat-section">
       <div class="container">
-        <h2 data-i18n="chat.title">Chatea con Nuestro Asistente de Viajes</h2>
+        <h2 class="section-title" data-i18n="chat.title">¿Tienes Preguntas?</h2>
+        <p class="section-subtitle" data-i18n="chat.subtitle">Nuestro asistente está aquí para ayudarte</p>
+        
         <div class="chat-container">
           <div id="chat-messages" class="chat-messages"></div>
           <div class="chat-input-container">
-            <input type="text" id="chat-input" data-i18n="chat.placeholder" placeholder="Pregúntame sobre planificación de vacaciones..." />
-            <button id="send-chat-btn" data-i18n="chat.send">Enviar</button>
+            <input type="text" id="chat-input" placeholder="Pregúntame lo que quieras..." class="chat-input" data-i18n="chat.placeholder"/>
+            <button id="send-chat-btn" class="chat-send-btn">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M18 2L9 11M18 2L12 18L9 11M18 2L2 8L9 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Enrollment Section -->
-    <section id="enrollment" class="enrollment-section">
+    <!-- CTA Section -->
+    <section class="cta-section">
       <div class="container">
-        <h2 data-i18n="enrollment.title">¿Listo para Comenzar tu Fondo de Vacaciones?</h2>
-        <button class="cta-button" id="enroll-btn" data-i18n="enrollment.cta">Pagar mi cuota de inscripción</button>
+        <div class="cta-content">
+          <h2 class="cta-title" data-i18n="cta.title">¿Listo para Comenzar?</h2>
+          <p class="cta-subtitle" data-i18n="cta.subtitle">Miles de familias ya están viajando con VIDA</p>
+          <button class="cta-button" id="enroll-btn">
+            <span data-i18n="cta.button">Iniciar Mi Viaje Ahora</span>
+            <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p data-i18n="footer.copyright">© 2024 VIDA Travel. Todos los derechos reservados.</p>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo-circle small">
+            <span class="logo-emoji">✈️</span>
+          </div>
+          <h3>VIDA <span class="logo-accent">Travel</span></h3>
+          <p data-i18n="footer.tagline">Tu viaje soñado, sin intereses</p>
+        </div>
+        <div class="footer-links">
+          <a href="#" data-i18n="footer.privacy">Privacidad</a>
+          <a href="#" data-i18n="footer.terms">Términos</a>
+          <a href="#" data-i18n="footer.contact">Contacto</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">© 2024 VIDA Travel. Todos los derechos reservados.</p>
+      </div>
     </div>
   </footer>
+
+  <!-- Floating Chat Widget Button -->
+  <button class="floating-chat-btn" id="floating-chat-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
 
   <!-- Scripts -->
   <script src="/js/i18n.js"></script>

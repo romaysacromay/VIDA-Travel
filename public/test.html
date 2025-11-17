@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VIDA Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-box {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>✅ Server is Working!</h1>
+        <p>If you can see this page, the server is running correctly.</p>
+        <hr>
+        <h2>Test Checklist:</h2>
+        <ul>
+            <li class="success">✓ HTML is loading</li>
+            <li class="success">✓ CSS is working</li>
+            <li id="js-test" class="error">✗ JavaScript not loaded</li>
+        </ul>
+        <hr>
+        <p><strong>Main Page:</strong> <a href="/index.html">Click here to view the new VIDA landing page</a></p>
+    </div>
+    <script>
+        document.getElementById('js-test').className = 'success';
+        document.getElementById('js-test').textContent = '✓ JavaScript is working';
+        console.log('✅ Test page loaded successfully');
+    </script>
+</body>
+</html>

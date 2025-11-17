@@ -33,51 +33,25 @@ class DestinationSelector {
   render() {
     const lang = window.i18n?.getLanguage() || 'es-MX';
     
+    // Render only cards mode for the new design
     this.container.innerHTML = `
-      <div class="destination-selector">
-        <!-- Mode Toggle -->
-        <div class="destination-mode-toggle">
-          <button class="mode-btn ${this.mode === 'dropdown' ? 'active' : ''}" data-mode="dropdown">
-            <span data-i18n="simulator.destination">Destino</span>
-          </button>
-          <button class="mode-btn ${this.mode === 'cards' ? 'active' : ''}" data-mode="cards">
-            <span>Vista de Tarjetas</span>
-          </button>
+      ${this.destinations.map(dest => `
+        <div class="destination-card ${this.selectedDestination === dest.id ? 'selected' : ''}" 
+             data-destination="${dest.id}">
+          <div class="destination-card-image">
+            <img src="/images/destinations/${dest.id}.jpg" 
+                 alt="${dest.name[lang]}" 
+                 onerror="this.src='/images/destinations/placeholder.jpg'">
+          </div>
+          <div class="destination-card-content">
+            <h3 class="destination-card-name">${dest.name[lang]}</h3>
+            <p class="destination-card-price">
+              $${dest.priceRange.min.toLocaleString()} - $${dest.priceRange.max.toLocaleString()} MXN
+            </p>
+          </div>
+          ${this.selectedDestination === dest.id ? '<div class="destination-card-check">✓</div>' : ''}
         </div>
-        
-        <!-- Dropdown Mode -->
-        <div class="destination-dropdown-mode" style="display: ${this.mode === 'dropdown' ? 'block' : 'none'}">
-          <select id="destination-dropdown" class="destination-select">
-            <option value="">${window.i18n?.t('simulator.destinationPlaceholder') || 'Selecciona un destino'}</option>
-            ${this.destinations.map(dest => `
-              <option value="${dest.id}" ${this.selectedDestination === dest.id ? 'selected' : ''}>
-                ${dest.name[lang]} ($${dest.priceRange.min.toLocaleString()} - $${dest.priceRange.max.toLocaleString()} MXN)
-              </option>
-            `).join('')}
-          </select>
-        </div>
-        
-        <!-- Cards Mode -->
-        <div class="destination-cards-mode" style="display: ${this.mode === 'cards' ? 'grid' : 'none'}">
-          ${this.destinations.map(dest => `
-            <div class="destination-card ${this.selectedDestination === dest.id ? 'selected' : ''}" 
-                 data-destination="${dest.id}">
-              <div class="destination-card-image">
-                <img src="/images/destinations/${dest.id}.jpg" 
-                     alt="${dest.name[lang]}" 
-                     onerror="this.src='/images/destinations/placeholder.jpg'">
-              </div>
-              <div class="destination-card-content">
-                <h3 class="destination-card-name">${dest.name[lang]}</h3>
-                <p class="destination-card-price">
-                  $${dest.priceRange.min.toLocaleString()} - $${dest.priceRange.max.toLocaleString()} MXN
-                </p>
-              </div>
-              ${this.selectedDestination === dest.id ? '<div class="destination-card-check">✓</div>' : ''}
-            </div>
-          `).join('')}
-        </div>
-      </div>
+      `).join('')}
     `;
     
     // Re-apply translations
@@ -87,19 +61,8 @@ class DestinationSelector {
   }
   
   attachEventListeners() {
-    // Use event delegation for mode toggle
+    // Use event delegation for card selection
     this.container.addEventListener('click', (e) => {
-      const modeBtn = e.target.closest('.mode-btn');
-      if (modeBtn) {
-        e.preventDefault();
-        const mode = modeBtn.getAttribute('data-mode');
-        if (mode) {
-          this.setMode(mode);
-        }
-        return;
-      }
-      
-      // Card selection
       const card = e.target.closest('.destination-card');
       if (card) {
         const destId = card.getAttribute('data-destination');
@@ -109,20 +72,6 @@ class DestinationSelector {
         return;
       }
     });
-    
-    // Dropdown selection
-    const dropdown = this.container.querySelector('#destination-dropdown');
-    if (dropdown) {
-      dropdown.addEventListener('change', (e) => {
-        this.selectDestination(e.target.value);
-      });
-    }
-  }
-  
-  setMode(mode) {
-    this.mode = mode;
-    this.render();
-    this.attachEventListeners();
   }
   
   selectDestination(destId) {

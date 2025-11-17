@@ -1,26 +1,35 @@
-// VIDA Travel Vacation Credit Landing Page - Main JavaScript
-// Bilingual support (Spanish default)
+// VIDA Travel - Enhanced Interactive Journey Application
+// Modern, Gamified User Experience
 
-// Firebase Functions URLs
 const FUNCTIONS_BASE_URL = 'https://us-central1-vida-travel-vacation-credit.cloudfunctions.net';
 
-// Global component instances
+// Global state
+const appState = {
+  currentStep: 1,
+  selectedDestination: null,
+  adults: 2,
+  children: 0,
+  salary: 0,
+  weeklyDeposit: 0,
+  checkInDate: null,
+  checkOutDate: null,
+  destinationData: null
+};
+
+// Component instances
 let destinationSelector;
 let datePicker;
 let financialCalculator;
 let financialVisualizer;
 
-// Initialize analytics tracking
+// ============================================
+// Analytics & Tracking
+// ============================================
+
 function trackEvent(eventName, eventParams = {}) {
   const lang = window.i18n?.getLanguage() || 'es-MX';
+  const paramsWithLang = { ...eventParams, language: lang };
   
-  // Add language to all events
-  const paramsWithLang = {
-    ...eventParams,
-    language: lang
-  };
-  
-  // Firebase Analytics
   try {
     if (window.firebaseAnalytics && window.firebaseLogEvent) {
       window.firebaseLogEvent(window.firebaseAnalytics, eventName, paramsWithLang);
@@ -29,7 +38,6 @@ function trackEvent(eventName, eventParams = {}) {
     console.warn('Firebase Analytics error:', e);
   }
   
-  // Google Analytics
   try {
     if (typeof gtag !== 'undefined') {
       gtag('event', eventName, paramsWithLang);
@@ -38,7 +46,6 @@ function trackEvent(eventName, eventParams = {}) {
     console.warn('Google Analytics error:', e);
   }
   
-  // Meta Pixel
   try {
     if (typeof fbq !== 'undefined') {
       fbq('track', eventName, paramsWithLang);
@@ -50,193 +57,50 @@ function trackEvent(eventName, eventParams = {}) {
   console.log('Event tracked:', eventName, paramsWithLang);
 }
 
-// Track page view on load - wait for all scripts to load
+// ============================================
+// Initialization
+// ============================================
+
 function initWhenReady() {
-  // Check if all required modules are loaded
   if (typeof window.i18n === 'undefined' || 
       typeof window.DestinationSelector === 'undefined' ||
-      typeof window.DatePicker === 'undefined' ||
       typeof window.FinancialCalculator === 'undefined' ||
       typeof window.FinancialVisualizer === 'undefined') {
-    // Retry after a short delay
     setTimeout(initWhenReady, 100);
     return;
   }
   
-  const lang = window.i18n?.getLanguage() || 'es-MX';
-  
   trackEvent('page_load', {
-    page_title: 'Vacation Credit Landing Page',
-    page_location: window.location.href,
-    language: lang
+    page_title: 'VIDA Travel Landing Page',
+    page_location: window.location.href
   });
   
-  initializeComponents();
-  initializeLanguageToggle();
+  initializeApp();
 }
 
-// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initWhenReady);
 } else {
-  // DOM already loaded, wait for scripts
   initWhenReady();
 }
 
-// Initialize all components
-function initializeComponents() {
-  // Initialize Destination Selector
-  const destContainer = document.getElementById('destination-selector-container');
-  if (destContainer) {
-    destinationSelector = new DestinationSelector('destination-selector-container', (destId) => {
-      console.log('Destination selected:', destId);
-      // When destination is selected, check if we can show date picker
-      checkAndShowDatePicker();
-      // Update visualizer
-      updateFinancialVisualizer();
-    });
-  }
-  
-  // Initialize Date Picker (hidden initially)
-  datePicker = new DatePicker('travel-start', 'travel-end', (dates) => {
-    console.log('Dates selected:', dates);
-  });
-  
-  // Initialize Financial Calculator
-  financialCalculator = new FinancialCalculator('salary', 'deposit-amount', (validation) => {
-    console.log('Financial validation:', validation);
-    // When financial inputs are ready, check if we can show date picker
-    if (validation.readyForDates) {
-      checkAndShowDatePicker();
-    }
-    
-    // Update visualizer in real-time
-    updateFinancialVisualizer();
-  });
-  
-  // Initialize Financial Visualizer
-  financialVisualizer = new FinancialVisualizer('financial-visualizer-container');
-  
-  // Update visualizer when inputs change
-  const salaryInput = document.getElementById('salary');
-  const depositInput = document.getElementById('deposit-amount');
-  if (salaryInput) {
-    salaryInput.addEventListener('input', () => {
-      updateFinancialVisualizer();
-    });
-  }
-  if (depositInput) {
-    depositInput.addEventListener('input', () => {
-      updateFinancialVisualizer();
-    });
-  }
-  
-  // Listen for changes in adults/children count
-  const adultsSelect = document.getElementById('adults');
-  const childrenInput = document.getElementById('children');
-  if (adultsSelect) {
-    adultsSelect.addEventListener('change', () => {
-      checkAndShowDatePicker();
-      updateFinancialVisualizer();
-    });
-  }
-  if (childrenInput) {
-    childrenInput.addEventListener('input', () => {
-      checkAndShowDatePicker();
-      updateFinancialVisualizer();
-    });
-    childrenInput.addEventListener('change', () => {
-      checkAndShowDatePicker();
-      updateFinancialVisualizer();
-    });
-  }
-  
-  // Initialize Chat Widget (already initialized by chat-widget.js)
-  
-  // Initialize form submission
-  initializeFormSubmission();
-  
-  // Initialize chat section
+function initializeApp() {
+  initializeLanguageToggle();
+  initializeHeroSection();
+  initializeJourneyFlow();
   initializeChatSection();
-  
-  // Initialize enrollment button
-  initializeEnrollmentButton();
-  
-  // Initialize hero CTA
-  initializeHeroCTA();
+  initializeScrollProgress();
+  initializeFloatingChatButton();
 }
 
-// Update financial visualizer with current data
-function updateFinancialVisualizer() {
-  if (!financialVisualizer) return;
-  
-  const destination = destinationSelector?.getSelectedDestination();
-  const salary = parseFloat(document.getElementById('salary')?.value || '0');
-  const weeklyDeposit = parseFloat(document.getElementById('deposit-amount')?.value || '0');
-  const adults = parseInt(document.getElementById('adults')?.value || '2');
-  const children = parseInt(document.getElementById('children')?.value || '0');
-  
-  financialVisualizer.updateData({
-    destination,
-    salary,
-    weeklyDeposit,
-    adults,
-    children
-  });
-}
+// ============================================
+// Language Toggle
+// ============================================
 
-// Check if we have all required info to show date picker and calculate earliest date
-function checkAndShowDatePicker() {
-  // Need destination, salary, and weekly deposit
-  const destination = destinationSelector?.getSelectedDestination();
-  const salary = parseFloat(document.getElementById('salary')?.value || '0');
-  const weeklyDeposit = parseFloat(document.getElementById('deposit-amount')?.value || '0');
-  const adults = parseInt(document.getElementById('adults')?.value || '2');
-  const children = parseInt(document.getElementById('children')?.value || '0');
-  
-  if (!destination || salary <= 0 || weeklyDeposit <= 0) {
-    // Hide date picker if not ready
-    if (datePicker && datePicker.dateSection) {
-      datePicker.dateSection.style.display = 'none';
-    }
-    return; // Not ready yet
-  }
-  
-  // Get destination data to estimate price
-  const destData = destinationSelector.getDestinationData(destination);
-  if (!destData) return;
-  
-  // Use average price for estimation (we'll refine with actual pricing later)
-  const avgPrice = (destData.priceRange.min + destData.priceRange.max) / 2;
-  
-  // Calculate total package price (simplified - using average adult price)
-  // In reality, this should consider seasonal pricing, but for UI purposes, we'll use average
-  const childrenPrice = avgPrice * 0.25; // 25% discount for children
-  const totalPrice = (adults * avgPrice) + (children * childrenPrice);
-  
-  // Calculate 80% savings target
-  const savingsTarget = totalPrice * 0.8;
-  
-  // Calculate weeks to save
-  const weeksToSave = Math.ceil(savingsTarget / weeklyDeposit);
-  
-  // Calculate earliest departure date (today + weeks to save)
-  const today = new Date();
-  const earliestDate = new Date(today);
-  earliestDate.setDate(earliestDate.getDate() + (weeksToSave * 7));
-  
-  // Show date picker with calculated earliest date
-  if (datePicker) {
-    datePicker.showDatePicker(earliestDate);
-  }
-}
-
-// Language Toggle Handler
 function initializeLanguageToggle() {
   const langButtons = document.querySelectorAll('.lang-btn');
-  
-  // Set active button based on current language
   const currentLang = window.i18n?.getLanguage() || 'es-MX';
+  
   langButtons.forEach(btn => {
     const btnLang = btn.getAttribute('data-lang');
     if (btnLang === currentLang) {
@@ -246,144 +110,431 @@ function initializeLanguageToggle() {
     }
   });
   
-  // Handle language toggle clicks
   langButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const newLang = btn.getAttribute('data-lang');
       if (window.i18n) {
         window.i18n.setLanguage(newLang);
-        
-        // Update active button
         langButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
-        // Update HTML lang attribute
         document.documentElement.lang = newLang === 'es-MX' ? 'es-MX' : 'en-US';
+        
+        trackEvent('language_changed', { new_language: newLang });
       }
     });
   });
 }
 
-// Simulation Form Handler
-function initializeFormSubmission() {
-  const simulationForm = document.getElementById('simulation-form');
-  if (!simulationForm) return;
+// ============================================
+// Hero Section
+// ============================================
+
+function initializeHeroSection() {
+  const startJourneyBtn = document.getElementById('start-journey-btn');
+  if (startJourneyBtn) {
+    startJourneyBtn.addEventListener('click', () => {
+      trackEvent('hero_cta_click');
+      scrollToJourney();
+    });
+  }
+}
+
+function scrollToJourney() {
+  const journeySection = document.getElementById('journey');
+  if (journeySection) {
+    journeySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ============================================
+// Journey Flow - Step by Step
+// ============================================
+
+function initializeJourneyFlow() {
+  // Initialize destination selector
+  initializeDestinationStep();
   
-  simulationForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Initialize family composition counters
+  initializeFamilyStep();
+  
+  // Initialize financial inputs
+  initializeFinancialStep();
+  
+  // Initialize date picker
+  initializeDateStep();
+  
+  // Initialize form submission
+  initializeFormSubmission();
+  
+  // Initialize step navigation
+  initializeStepNavigation();
+}
+
+// Step 1: Destination Selection
+function initializeDestinationStep() {
+  const container = document.getElementById('destination-selector-container');
+  if (!container) return;
+  
+  destinationSelector = new DestinationSelector('destination-selector-container', (destId) => {
+    appState.selectedDestination = destId;
+    appState.destinationData = destinationSelector.getDestinationData(destId);
     
-    // Get form values
-    const destination = destinationSelector?.getSelectedDestination();
-    const dates = datePicker?.getDates();
-    const adults = parseInt(document.getElementById('adults')?.value || '1');
-    const children = parseInt(document.getElementById('children')?.value || '0');
-    const salary = parseFloat(document.getElementById('salary')?.value || '0');
-    const weeklyDeposit = parseFloat(document.getElementById('deposit-amount')?.value || '0');
-    const lang = window.i18n?.getLanguage() || 'es-MX';
-    
-    // Validate
-    if (!destination) {
-      alert(window.i18n?.t('validation.required') || 'Por favor selecciona un destino');
-      return;
+    // Enable next button
+    const nextBtn = document.querySelector('[data-step="1"] .btn-next');
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      nextBtn.classList.add('pulse-animation');
     }
     
-    if (!dates.checkIn || !dates.checkOut) {
-      alert(window.i18n?.t('validation.datesRequired') || 'Por favor selecciona fechas de entrada y salida');
-      return;
-    }
+    trackEvent('destination_selected', { destination: destId });
     
-    if (!financialCalculator?.validate()) {
-      return;
-    }
+    // Celebrate selection
+    celebrateSelection();
+  });
+}
+
+// Step 2: Family Composition
+function initializeFamilyStep() {
+  const counterButtons = document.querySelectorAll('.counter-btn');
+  
+  counterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action = btn.getAttribute('data-action');
+      const target = btn.getAttribute('data-target');
+      const input = document.getElementById(target);
+      
+      if (!input) return;
+      
+      let currentValue = parseInt(input.value);
+      const min = parseInt(input.min);
+      const max = parseInt(input.max);
+      
+      if (action === 'increase' && currentValue < max) {
+        currentValue++;
+        playSound('click');
+      } else if (action === 'decrease' && currentValue > min) {
+        currentValue--;
+        playSound('click');
+      }
+      
+      input.value = currentValue;
+      appState[target] = currentValue;
+      
+      // Animate the change
+      animateNumberChange(input);
+      
+      trackEvent('family_composition_changed', {
+        type: target,
+        value: currentValue
+      });
+    });
+  });
+}
+
+// Step 3: Financial Information
+function initializeFinancialStep() {
+  const salaryInput = document.getElementById('salary');
+  const depositInput = document.getElementById('deposit-amount');
+  
+  financialCalculator = new FinancialCalculator('salary', 'deposit-amount', (validation) => {
+    appState.salary = parseFloat(salaryInput?.value || 0);
+    appState.weeklyDeposit = parseFloat(depositInput?.value || 0);
     
-    // Track family composition
-    trackEvent('family_composition_set', {
-      adults,
-      children
+    updateFinancialVisualizer();
+    
+    const nextBtn = document.querySelector('[data-step="3"] .btn-next');
+    if (nextBtn) {
+      nextBtn.disabled = !validation.isValid;
+    }
+  });
+  
+  // Real-time updates
+  if (salaryInput) {
+    salaryInput.addEventListener('input', debounce(() => {
+      appState.salary = parseFloat(salaryInput.value || 0);
+      updateFinancialVisualizer();
+    }, 500));
+  }
+  
+  if (depositInput) {
+    depositInput.addEventListener('input', debounce(() => {
+      appState.weeklyDeposit = parseFloat(depositInput.value || 0);
+      updateFinancialVisualizer();
+    }, 500));
+  }
+  
+  // Initialize visualizer
+  financialVisualizer = new FinancialVisualizer('financial-visualizer-container');
+}
+
+// Step 4: Date Selection
+function initializeDateStep() {
+  const startInput = document.getElementById('travel-start');
+  const endInput = document.getElementById('travel-end');
+  
+  if (startInput && endInput) {
+    startInput.addEventListener('change', () => {
+      appState.checkInDate = startInput.value;
+      validateDates();
     });
     
-    // Prepare form data
+    endInput.addEventListener('change', () => {
+      appState.checkOutDate = endInput.value;
+      validateDates();
+    });
+  }
+  
+  datePicker = new DatePicker('travel-start', 'travel-end', (dates) => {
+    appState.checkInDate = dates.checkIn;
+    appState.checkOutDate = dates.checkOut;
+  });
+}
+
+// ============================================
+// Step Navigation
+// ============================================
+
+function initializeStepNavigation() {
+  // Next buttons
+  document.querySelectorAll('.btn-next').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nextStep = parseInt(btn.getAttribute('data-next-step'));
+      goToStep(nextStep);
+    });
+  });
+  
+  // Back buttons
+  document.querySelectorAll('.btn-back').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prevStep = parseInt(btn.getAttribute('data-prev-step'));
+      goToStep(prevStep);
+    });
+  });
+}
+
+function goToStep(stepNumber) {
+  // Hide current step
+  const currentStepEl = document.querySelector(`.journey-step[data-step="${appState.currentStep}"]`);
+  if (currentStepEl) {
+    currentStepEl.classList.remove('active');
+  }
+  
+  // Show new step
+  const newStepEl = document.querySelector(`.journey-step[data-step="${stepNumber}"]`);
+  if (newStepEl) {
+    newStepEl.classList.add('active');
+    newStepEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  
+  // Update step progress indicator
+  updateStepProgress(stepNumber);
+  
+  // Update state
+  appState.currentStep = stepNumber;
+  
+  // Update top progress bar
+  updateTopProgress();
+  
+  // Track step change
+  trackEvent('journey_step_changed', { step: stepNumber });
+  
+  // Trigger confetti for completed steps
+  if (stepNumber > 1) {
+    triggerMicroCelebration();
+  }
+}
+
+function updateStepProgress(currentStep) {
+  document.querySelectorAll('.step-item').forEach((item, index) => {
+    const step = index + 1;
+    const circle = item.querySelector('.step-circle');
+    
+    if (step < currentStep) {
+      item.classList.add('completed');
+      item.classList.remove('active');
+    } else if (step === currentStep) {
+      item.classList.add('active');
+      item.classList.remove('completed');
+    } else {
+      item.classList.remove('active', 'completed');
+    }
+  });
+  
+  // Update step lines
+  document.querySelectorAll('.step-line').forEach((line, index) => {
+    if (index < currentStep - 1) {
+      line.classList.add('completed');
+    } else {
+      line.classList.remove('completed');
+    }
+  });
+}
+
+// ============================================
+// Financial Visualizer Updates
+// ============================================
+
+function updateFinancialVisualizer() {
+  if (!financialVisualizer || !appState.selectedDestination) return;
+  
+  financialVisualizer.updateData({
+    destination: appState.destinationData,
+    salary: appState.salary,
+    weeklyDeposit: appState.weeklyDeposit,
+    adults: appState.adults,
+    children: appState.children
+  });
+}
+
+// ============================================
+// Date Validation
+// ============================================
+
+function validateDates() {
+  if (!appState.checkInDate || !appState.checkOutDate) return;
+  
+  const validationEl = document.getElementById('date-validation-message');
+  if (!validationEl) return;
+  
+  const checkIn = new Date(appState.checkInDate);
+  const checkOut = new Date(appState.checkOutDate);
+  const today = new Date();
+  
+  // Calculate earliest possible date based on savings
+  const earliestDate = calculateEarliestDepartureDate();
+  
+  if (checkIn >= earliestDate && checkOut > checkIn) {
+    validationEl.className = 'date-validation success';
+    validationEl.innerHTML = `✅ ¡Perfecto! Tus fechas son viables. Podrás viajar en estas fechas.`;
+  } else if (checkIn < earliestDate) {
+    const formattedDate = earliestDate.toLocaleDateString('es-MX', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    validationEl.className = 'date-validation warning';
+    validationEl.innerHTML = `⚠️ Necesitas más tiempo para ahorrar. Tu fecha de salida garantizada es: <strong>${formattedDate}</strong>`;
+  }
+}
+
+function calculateEarliestDepartureDate() {
+  if (!appState.destinationData || !appState.weeklyDeposit) {
+    return new Date();
+  }
+  
+  const avgPrice = (appState.destinationData.priceRange.min + appState.destinationData.priceRange.max) / 2;
+  const totalPrice = (appState.adults * avgPrice) + (appState.children * avgPrice * 0.25);
+  const savingsTarget = totalPrice * 0.8;
+  const weeksToSave = Math.ceil(savingsTarget / appState.weeklyDeposit);
+  
+  const today = new Date();
+  const earliestDate = new Date(today);
+  earliestDate.setDate(earliestDate.getDate() + (weeksToSave * 7));
+  
+  return earliestDate;
+}
+
+// ============================================
+// Form Submission
+// ============================================
+
+function initializeFormSubmission() {
+  const form = document.getElementById('journey-form');
+  if (!form) return;
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await submitJourney();
+  });
+}
+
+async function submitJourney() {
+  const submitBtn = document.getElementById('submit-journey-btn');
+    const lang = window.i18n?.getLanguage() || 'es-MX';
+    
+  // Validation
+  if (!appState.selectedDestination || !appState.salary || !appState.weeklyDeposit) {
+    alert(lang === 'es-MX' ? 'Por favor completa todos los campos' : 'Please complete all fields');
+      return;
+    }
+    
+  if (!appState.checkInDate || !appState.checkOutDate) {
+    alert(lang === 'es-MX' ? 'Por favor selecciona fechas de viaje' : 'Please select travel dates');
+      return;
+    }
+    
+  // Show loading state
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>⏳ Calculando...</span>';
+  }
+  
+  trackEvent('journey_submitted', {
+    destination: appState.selectedDestination,
+    adults: appState.adults,
+    children: appState.children,
+    salary: appState.salary,
+    weekly_deposit: appState.weeklyDeposit
+  });
+  
+  try {
     const formData = {
-      destination,
-      checkIn: dates.checkIn,
-      checkOut: dates.checkOut,
-      adults,
-      children,
-      monthlySalary: salary,
-      weeklyDeposit,
+      destination: appState.selectedDestination,
+      checkIn: appState.checkInDate,
+      checkOut: appState.checkOutDate,
+      adults: appState.adults,
+      children: appState.children,
+      monthlySalary: appState.salary,
+      weeklyDeposit: appState.weeklyDeposit,
       language: lang,
       userId: getUserId(),
       sessionId: getSessionId(),
       experimentVariantId: getExperimentVariantId()
     };
     
-    // Track search submission
-    trackEvent('search_submission', {
-      destination,
-      adults,
-      children
-    });
-    
-    // Show loading state
-    const submitBtn = document.getElementById('submit-simulation-btn');
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = window.i18n?.t('simulator.submitting') || 'Calculando...';
-    
-    try {
       const response = await fetch(`${FUNCTIONS_BASE_URL}/simulateVacationCredit`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+      headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
       
       const data = await response.json();
       
       if (data.success) {
-        displaySimulationResults(data.simulation, lang);
+      displayResults(data.simulation, lang);
+      triggerCelebration();
         
-        // Track simulation completion
-        trackEvent('simulation_viewed', {
-          destination,
+      trackEvent('journey_completed', {
+        destination: appState.selectedDestination,
           loan_term: data.simulation.loanTerm,
-          payment_percentage: data.simulation.paymentPercentage,
-          dates_viable: data.simulation.selectedDatesViable
+        viable: data.simulation.selectedDatesViable
         });
-        
-        if (data.simulation.selectedDatesViable) {
-          trackEvent('dates_guaranteed', { destination });
         } else {
-          trackEvent('dates_not_guaranteed', { destination });
-        }
-      } else {
-        const errorMsg = lang === 'es-MX' 
-          ? 'Error: ' + (data.error || 'No se pudo calcular el crédito de vacaciones')
-          : 'Error: ' + (data.error || 'Failed to calculate vacation credit');
-        alert(errorMsg);
+      throw new Error(data.error || 'Calculation failed');
       }
     } catch (error) {
       console.error('Error:', error);
-      const errorMsg = lang === 'es-MX'
+    alert(lang === 'es-MX' 
         ? 'Ocurrió un error. Por favor intenta de nuevo.'
-        : 'An error occurred. Please try again.';
-      alert(errorMsg);
+      : 'An error occurred. Please try again.');
     } finally {
+    if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      submitBtn.innerHTML = '<span>✨ Calcular Mi Plan de Viaje</span>';
     }
-  });
+  }
 }
 
-// Display simulation results with enhanced dashboard
-function displaySimulationResults(simulation, lang) {
-  const resultsDiv = document.getElementById('simulation-results');
+// ============================================
+// Results Display
+// ============================================
+
+function displayResults(simulation, lang) {
+  const resultsContainer = document.getElementById('results-container');
   const resultsContent = document.getElementById('results-content');
   
-  if (!resultsDiv || !resultsContent) return;
+  if (!resultsContainer || !resultsContent) return;
   
-  const i18n = window.i18n;
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('es-MX', { 
       style: 'currency', 
@@ -393,18 +544,8 @@ function displaySimulationResults(simulation, lang) {
     }).format(amount);
   };
   
-  // Determine payment indicator color
-  let paymentIndicatorClass = 'green';
-  if (simulation.paymentPercentage > 15) {
-    paymentIndicatorClass = 'red';
-  } else if (simulation.paymentPercentage > 12) {
-    paymentIndicatorClass = 'yellow';
-  }
-  
-  // Format dates
-  const checkInDate = new Date(simulation.checkIn);
   const guaranteedDate = new Date(simulation.guaranteedDepartureDate);
-  const formattedGuaranteedDate = guaranteedDate.toLocaleDateString(lang === 'es-MX' ? 'es-MX' : 'en-US', {
+  const formattedDate = guaranteedDate.toLocaleDateString(lang === 'es-MX' ? 'es-MX' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -412,92 +553,78 @@ function displaySimulationResults(simulation, lang) {
   
   resultsContent.innerHTML = `
     <div class="results-grid">
-      <div class="result-card">
-        <h4>${i18n?.t('results.totalPrice') || 'Precio Total del Paquete'}</h4>
+      <div class="result-card highlight">
+        <h4>💰 Precio Total</h4>
         <div class="value">${formatCurrency(simulation.totalPrice)}</div>
       </div>
       
       <div class="result-card">
-        <h4>${i18n?.t('results.savingsTarget') || 'Meta de Ahorro (80%)'}</h4>
+        <h4>🏦 Tu Ahorro (80%)</h4>
         <div class="value">${formatCurrency(simulation.savingsTarget)}</div>
+        <p style="font-size: 0.875rem; margin-top: 0.5rem;">En ${simulation.weeksToSave} semanas</p>
       </div>
       
-      <div class="result-card">
-        <h4>${i18n?.t('results.weeksToSave') || 'Semanas para ahorrar 80%'}</h4>
-        <div class="value">${simulation.weeksToSave}</div>
-      </div>
-      
-      <div class="result-card zero-interest">
-        <h4>${i18n?.t('results.loanAmount') || 'Monto del préstamo (hasta 20%)'}</h4>
+      <div class="result-card highlight">
+        <h4>🎁 Préstamo VIDA (20%)</h4>
         <div class="value">${formatCurrency(simulation.loanAmount)}</div>
-        <div style="margin-top: 0.5rem; font-size: 0.9rem;">
-          ${i18n?.t('results.zeroInterest') || '(0% de interés)'}
-        </div>
+        <p style="font-size: 0.875rem; margin-top: 0.5rem; font-weight: 600;">0% Interés</p>
       </div>
       
       <div class="result-card">
-        <h4>${i18n?.t('results.loanTerm') || 'Plazo del préstamo'}</h4>
-        <div class="value">${simulation.loanTerm} ${lang === 'es-MX' ? 'meses' : 'months'}</div>
+        <h4>📅 Plazo de Pago</h4>
+        <div class="value">${simulation.loanTerm} meses</div>
       </div>
       
       <div class="result-card">
-        <h4>${i18n?.t('results.monthlyPayment') || 'Tu pago mensual será'}</h4>
+        <h4>💳 Pago Mensual</h4>
         <div class="value">${formatCurrency(simulation.monthlyPayment)}</div>
-        <div class="payment-indicator ${paymentIndicatorClass}">
-          ${simulation.paymentPercentage.toFixed(1)}% ${i18n?.t('results.monthlyPaymentOf') || 'de tu salario de'} ${formatCurrency(simulation.monthlySalary)}
-        </div>
+        <p style="font-size: 0.875rem; margin-top: 0.5rem;">${simulation.paymentPercentage.toFixed(1)}% de tu salario</p>
       </div>
       
-      <div class="result-card zero-interest">
-        <h4>${i18n?.t('results.totalToPay') || 'Total a pagar'}</h4>
-        <div class="value">${formatCurrency(simulation.loanAmount)}</div>
-        <div style="margin-top: 0.5rem; font-size: 0.9rem;">
-          ${i18n?.t('results.zeroInterest') || '(0% de interés)'}
-        </div>
-      </div>
-      
-      <div class="result-card">
-        <h4>${i18n?.t('results.guaranteedDate') || 'Fecha de salida garantizada'}</h4>
-        <div class="value">${formattedGuaranteedDate}</div>
+      <div class="result-card ${simulation.selectedDatesViable ? 'highlight' : ''}">
+        <h4>✈️ Fecha de Salida</h4>
+        <div class="value" style="font-size: 1.25rem;">${formattedDate}</div>
+        ${simulation.selectedDatesViable 
+          ? '<p style="font-size: 0.875rem; margin-top: 0.5rem;">✅ Tus fechas son viables</p>'
+          : '<p style="font-size: 0.875rem; margin-top: 0.5rem;">⚠️ Fecha garantizada</p>'
+        }
       </div>
     </div>
     
-    <div class="feasibility-status ${simulation.selectedDatesViable ? 'guaranteed' : 'not-guaranteed'}">
-      ${simulation.selectedDatesViable 
-        ? (i18n?.t('results.datesGuaranteed') || 'Tus fechas seleccionadas son viables')
-        : (i18n?.t('results.datesNotGuaranteed') || 'Tus fechas seleccionadas no son viables. Fecha garantizada:') + ' ' + formattedGuaranteedDate
-      }
-      ${!simulation.selectedDatesViable 
-        ? '<div style="margin-top: 0.5rem; font-size: 0.9rem;">' + (i18n?.t('results.suggestIncreaseDeposit') || 'Sugerencia: Aumenta tu depósito semanal o elige un destino más económico') + '</div>'
-        : ''
-      }
+    <div style="margin-top: 2rem; text-align: center;">
+      <button class="cta-button" onclick="document.getElementById('enroll-btn').click()">
+        <span>🎉 ¡Quiero Viajar!</span>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   `;
   
-  resultsDiv.style.display = 'block';
-  resultsDiv.scrollIntoView({ behavior: 'smooth' });
+  resultsContainer.style.display = 'block';
+  resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Chat Section Handler
+// ============================================
+// Chat Section
+// ============================================
+
 function initializeChatSection() {
   const chatInput = document.getElementById('chat-input');
-  const sendChatBtn = document.getElementById('send-chat-btn');
+  const sendBtn = document.getElementById('send-chat-btn');
   const chatMessages = document.getElementById('chat-messages');
   
-  if (!chatInput || !sendChatBtn || !chatMessages) return;
+  if (!chatInput || !sendBtn || !chatMessages) return;
   
   let conversationHistory = [];
   
-  // Show welcome message
   const welcomeMsg = window.i18n?.t('chat.welcome') || 
-                    '¡Hola! Estoy aquí para ayudarte a planear tus vacaciones con el programa 0% interés de VIDA';
+    '¡Hola! 👋 Estoy aquí para ayudarte a planear tus vacaciones con VIDA. ¿En qué puedo ayudarte?';
   addChatMessage('assistant', welcomeMsg);
   
-  sendChatBtn.addEventListener('click', sendChatMessage);
+  sendBtn.addEventListener('click', () => sendChatMessage());
   chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      sendChatMessage();
-    }
+    if (e.key === 'Enter') sendChatMessage();
   });
   
   async function sendChatMessage() {
@@ -506,22 +633,18 @@ function initializeChatSection() {
     
     const lang = window.i18n?.getLanguage() || 'es-MX';
     
-    // Display user message
     addChatMessage('user', message);
     chatInput.value = '';
     
-    // Track chat message
-    trackEvent('chat_message_sent', {
-      source: 'section',
-      language: lang
-    });
+    trackEvent('chat_message_sent', { source: 'section' });
+    
+    // Show typing indicator
+    const typingId = addChatMessage('assistant', '...');
     
     try {
       const response = await fetch(`${FUNCTIONS_BASE_URL}/chatAgent`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message,
           conversationHistory,
@@ -533,6 +656,10 @@ function initializeChatSection() {
       
       const data = await response.json();
       
+      // Remove typing indicator
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      
       if (data.success) {
         addChatMessage('assistant', data.message);
         conversationHistory.push(
@@ -540,63 +667,165 @@ function initializeChatSection() {
           { role: 'assistant', content: data.message }
         );
       } else {
-        const errorMsg = lang === 'es-MX'
-          ? 'Lo siento, encontré un error. Por favor intenta de nuevo.'
-          : 'I apologize, but I encountered an error. Please try again.';
-        addChatMessage('assistant', errorMsg);
+        throw new Error(data.error);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Chat error:', error);
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      
       const errorMsg = lang === 'es-MX'
-        ? 'Lo siento, encontré un error. Por favor intenta de nuevo.'
-        : 'I apologize, but I encountered an error. Please try again.';
+        ? 'Lo siento, hubo un error. Por favor intenta de nuevo.'
+        : 'Sorry, there was an error. Please try again.';
       addChatMessage('assistant', errorMsg);
     }
   }
   
   function addChatMessage(role, content) {
+    const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const messageDiv = document.createElement('div');
+    messageDiv.id = messageId;
     messageDiv.className = `chat-message ${role}`;
     messageDiv.textContent = content;
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    return messageId;
   }
 }
 
-// Enrollment Button Handler
-function initializeEnrollmentButton() {
-  const enrollBtn = document.getElementById('enroll-btn');
-  if (!enrollBtn) return;
+// ============================================
+// Floating Chat Button
+// ============================================
+
+function initializeFloatingChatButton() {
+  const floatingBtn = document.getElementById('floating-chat-btn');
+  if (floatingBtn) {
+    floatingBtn.addEventListener('click', () => {
+      const chatSection = document.getElementById('chat');
+      if (chatSection) {
+        chatSection.scrollIntoView({ behavior: 'smooth' });
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+          setTimeout(() => chatInput.focus(), 500);
+        }
+      }
+    });
+  }
+}
+
+// ============================================
+// Scroll Progress
+// ============================================
+
+function initializeScrollProgress() {
+  window.addEventListener('scroll', updateTopProgress);
+}
+
+function updateTopProgress() {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
   
+  const progressBar = document.getElementById('journey-progress');
+  if (progressBar) {
+    progressBar.style.width = scrolled + '%';
+  }
+}
+
+// ============================================
+// Enrollment Button
+// ============================================
+
+const enrollBtn = document.getElementById('enroll-btn');
+if (enrollBtn) {
   enrollBtn.addEventListener('click', () => {
     const lang = window.i18n?.getLanguage() || 'es-MX';
+    trackEvent('enrollment_clicked');
     
-    // Track "Pay my enrolment fee" click
-    trackEvent('enrollment_fee_click', {
-      experiment_variant_id: getExperimentVariantId(),
-      language: lang
-    });
-    
-    // Redirect to enrollment page or handle enrollment
     const msg = lang === 'es-MX'
-      ? 'Redirigiendo a la página de inscripción...'
-      : 'Redirecting to enrollment page...';
+      ? '🎉 ¡Genial! Pronto estarás viajando con VIDA. Redirigiendo...'
+      : '🎉 Great! You\'ll soon be traveling with VIDA. Redirecting...';
     alert(msg);
-    // window.location.href = '/enroll';
   });
 }
 
-// Hero CTA Button Handler
-function initializeHeroCTA() {
-  const startSimulationBtn = document.getElementById('start-simulation-btn');
-  if (!startSimulationBtn) return;
+// ============================================
+// Animations & Celebrations
+// ============================================
+
+function celebrateSelection() {
+  playSound('success');
+  triggerMicroCelebration();
+}
+
+function triggerMicroCelebration() {
+  // Create small confetti effect
+  const colors = ['#667eea', '#764ba2', '#f093fb', '#fee140'];
+  for (let i = 0; i < 5; i++) {
+    createConfetti(colors[Math.floor(Math.random() * colors.length)]);
+  }
+}
+
+function triggerCelebration() {
+  playSound('celebration');
+  // Create larger confetti effect
+  const colors = ['#667eea', '#764ba2', '#f093fb', '#fee140', '#fa709a'];
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      createConfetti(colors[Math.floor(Math.random() * colors.length)]);
+    }, i * 50);
+  }
+}
+
+function createConfetti(color) {
+  const confetti = document.createElement('div');
+  confetti.style.cssText = `
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: ${color};
+    top: -10px;
+    left: ${Math.random() * 100}vw;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    animation: confetti-fall ${2 + Math.random() * 2}s linear forwards;
+  `;
   
-  startSimulationBtn.addEventListener('click', () => {
-    document.getElementById('simulator').scrollIntoView({ behavior: 'smooth' });
-  });
+  document.body.appendChild(confetti);
+  
+  setTimeout(() => confetti.remove(), 4000);
 }
 
-// Helper Functions
+function animateNumberChange(element) {
+  element.style.transform = 'scale(1.2)';
+  setTimeout(() => {
+    element.style.transform = 'scale(1)';
+  }, 200);
+}
+
+function playSound(type) {
+  // Placeholder for sound effects
+  // Could integrate Web Audio API for click, success, and celebration sounds
+  console.log(`Sound: ${type}`);
+}
+
+// ============================================
+// Utility Functions
+// ============================================
+
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 function getUserId() {
   if (window.firebaseAuth && window.firebaseAuth.currentUser) {
     return window.firebaseAuth.currentUser.uid;
@@ -614,19 +843,16 @@ function getSessionId() {
 }
 
 function getExperimentVariantId() {
-  if (window.firebaseRemoteConfig) {
     return sessionStorage.getItem('experiment_variant_id') || 'control';
   }
-  return 'control';
-}
 
-// Initialize experiment variant assignment
-document.addEventListener('DOMContentLoaded', async () => {
-  // Remote Config is already fetched and activated in index.html
-  // Just assign variant and apply it
+// ============================================
+// Experiment Variant (A/B Testing)
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
   const variantId = assignExperimentVariant();
   sessionStorage.setItem('experiment_variant_id', variantId);
-  applyExperimentVariant(variantId);
 });
 
 function assignExperimentVariant() {
@@ -637,21 +863,24 @@ function assignExperimentVariant() {
   return 'variant_b';
 }
 
-function applyExperimentVariant(variantId) {
-  // Remote Config is optional - use default headlines for now
-  // Can be enhanced later when Remote Config is properly configured
-  const lang = window.i18n?.getLanguage() || 'es-MX';
-  const headlineElement = document.getElementById('main-headline');
-  if (headlineElement) {
-    // Use default headline based on language
-    const defaultHeadline = lang === 'es-MX' 
-      ? '0% de Interés Garantizado en tu Crédito de Viaje'
-      : '0% Interest Guaranteed on Travel Credit';
-    headlineElement.textContent = defaultHeadline;
+// Add confetti animation to CSS if not already present
+const appStyle = document.createElement('style');
+appStyle.textContent = `
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
   }
-}
+  
+  .pulse-animation {
+    animation: pulse 1s ease-in-out 3;
+  }
+`;
+document.head.appendChild(appStyle);
 
-// Listen for language changes to update variant messaging
-window.addEventListener('languageChanged', (e) => {
-  applyExperimentVariant(getExperimentVariantId());
-});
+console.log('✨ VIDA Travel - Interactive Journey Initialized');
