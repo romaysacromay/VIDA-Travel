@@ -1,0 +1,220 @@
+{
+  "conditions": [
+    {
+      "name": "control",
+      "expression": "device.os == 'ios' || device.os == 'android'",
+      "tagColor": "BLUE"
+    },
+    {
+      "name": "variant_a",
+      "expression": "device.os == 'ios' || device.os == 'android'",
+      "tagColor": "GREEN"
+    },
+    {
+      "name": "variant_b",
+      "expression": "device.os == 'ios' || device.os == 'android'",
+      "tagColor": "ORANGE"
+    }
+  ],
+  "parameters": {
+    "zero_interest_headline_es": {
+      "defaultValue": {
+        "value": "0% de Interés Garantizado"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "Crédito Sin Intereses"
+        },
+        "variant_b": {
+          "value": "0% de Interés Garantizado en tu Crédito de Viaje"
+        }
+      },
+      "description": "Spanish headline for 0% interest messaging",
+      "valueType": "STRING"
+    },
+    "zero_interest_headline_en": {
+      "defaultValue": {
+        "value": "0% Interest Guaranteed"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "Interest-Free Travel Credit"
+        },
+        "variant_b": {
+          "value": "0% Interest Guaranteed on Travel Credit"
+        }
+      },
+      "description": "English headline for 0% interest messaging",
+      "valueType": "STRING"
+    },
+    "cta_text_es": {
+      "defaultValue": {
+        "value": "Pagar mi cuota de inscripción"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "Comenzar mi fondo de viaje"
+        },
+        "variant_b": {
+          "value": "Pagar mi cuota de inscripción"
+        }
+      },
+      "description": "Spanish CTA button text",
+      "valueType": "STRING"
+    },
+    "cta_text_en": {
+      "defaultValue": {
+        "value": "Pay my enrolment fee"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "Start My Vacation Fund"
+        },
+        "variant_b": {
+          "value": "Pay my enrolment fee"
+        }
+      },
+      "description": "English CTA button text",
+      "valueType": "STRING"
+    },
+    "hero_background_image": {
+      "defaultValue": {
+        "value": "cancun"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "puerto-vallarta"
+        },
+        "variant_b": {
+          "value": "los-cabos"
+        }
+      },
+      "description": "Hero background destination image",
+      "valueType": "STRING"
+    },
+    "pricing_display_emphasis": {
+      "defaultValue": {
+        "value": "total_price"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "monthly_payment"
+        },
+        "variant_b": {
+          "value": "total_price"
+        }
+      },
+      "description": "What to emphasize in pricing display",
+      "valueType": "STRING"
+    },
+    "default_loan_term": {
+      "defaultValue": {
+        "value": "6"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "12"
+        },
+        "variant_b": {
+          "value": "9"
+        }
+      },
+      "description": "Default loan term in months for conjoint testing",
+      "valueType": "NUMBER"
+    },
+    "package_price_base": {
+      "defaultValue": {
+        "value": "5000"
+      },
+      "description": "Base package price in MXN (for conjoint)",
+      "valueType": "NUMBER"
+    },
+    "package_price_variant_a": {
+      "defaultValue": {
+        "value": "4500"
+      },
+      "conditionalValues": {
+        "variant_a": {
+          "value": "4500"
+        }
+      },
+      "description": "Package price for variant A (conjoint)",
+      "valueType": "NUMBER"
+    },
+    "package_price_variant_b": {
+      "defaultValue": {
+        "value": "5500"
+      },
+      "conditionalValues": {
+        "variant_b": {
+          "value": "5500"
+        }
+      },
+      "description": "Package price for variant B (conjoint)",
+      "valueType": "NUMBER"
+    },
+    "messaging_headline_control": {
+      "defaultValue": {
+        "value": "0% de Interés Garantizado en tu Crédito de Viaje"
+      },
+      "description": "Default headline (Spanish)",
+      "valueType": "STRING"
+    }
+  },
+  "parameterGroups": {
+    "Zero Interest Messaging": {
+      "description": "0% interest messaging variations (bilingual)",
+      "parameters": [
+        "zero_interest_headline_es",
+        "zero_interest_headline_en"
+      ]
+    },
+    "CTA Text": {
+      "description": "Call-to-action button text (bilingual)",
+      "parameters": [
+        "cta_text_es",
+        "cta_text_en"
+      ]
+    },
+    "Visual Elements": {
+      "description": "Hero background and imagery",
+      "parameters": [
+        "hero_background_image"
+      ]
+    },
+    "Pricing Display": {
+      "description": "Pricing emphasis and display mode",
+      "parameters": [
+        "pricing_display_emphasis"
+      ]
+    },
+    "Loan Terms": {
+      "description": "Loan term variations for conjoint testing",
+      "parameters": [
+        "default_loan_term"
+      ]
+    },
+    "Pricing": {
+      "description": "Package pricing configurations (conjoint)",
+      "parameters": [
+        "package_price_base",
+        "package_price_variant_a",
+        "package_price_variant_b"
+      ]
+    },
+    "Messaging": {
+      "description": "Marketing messaging variations",
+      "parameters": [
+        "messaging_headline_control"
+      ]
+    }
+  },
+  "version": {
+    "versionNumber": "2",
+    "updateTime": "2024-01-01T00:00:00Z",
+    "updateUser": {
+      "email": "admin@vida-travel.com"
+    },
+    "description": "Updated Remote Config template with bilingual A/B testing parameters for 0% interest messaging, CTA text, and conjoint analysis"
+  }
+}

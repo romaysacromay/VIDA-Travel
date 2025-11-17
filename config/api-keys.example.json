@@ -1,0 +1,29 @@
+{
+  "firebase": {
+    "apiKey": "YOUR_FIREBASE_API_KEY",
+    "authDomain": "YOUR_PROJECT_ID.firebaseapp.com",
+    "projectId": "YOUR_PROJECT_ID",
+    "storageBucket": "YOUR_PROJECT_ID.appspot.com",
+    "messagingSenderId": "YOUR_MESSAGING_SENDER_ID",
+    "appId": "YOUR_APP_ID",
+    "measurementId": "YOUR_GA_MEASUREMENT_ID"
+  },
+  "gemini": {
+    "apiKey": "YOUR_GEMINI_API_KEY",
+    "model": "gemini-2.0-flash-exp"
+  },
+  "analytics": {
+    "googleAnalytics": {
+      "measurementId": "YOUR_GA_MEASUREMENT_ID"
+    },
+    "metaPixel": {
+      "pixelId": "YOUR_META_PIXEL_ID"
+    }
+  },
+  "bigquery": {
+    "datasetId": "vida_analytics",
+    "tableId": "events",
+    "projectId": "YOUR_PROJECT_ID"
+  }
+}
+

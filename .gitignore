@@ -1,0 +1,41 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Functions
+functions/lib/
+functions/.env
+functions/node_modules/
+
+# Environment variables
+.env
+.env.local
+config/api-keys.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Branding assets (if sensitive)
+# public/images/vida-logo.png
+# brand.md
+

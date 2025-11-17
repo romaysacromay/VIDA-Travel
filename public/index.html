@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VIDA Travel - Planifica tus vacaciones soñadas con nuestro programa de crédito de vacaciones">
+  <title>VIDA Travel - Crédito de Vacaciones</title>
+  
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getRemoteConfig } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-remote-config.js';
+    
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXLqx9s0qv7UbQPP8Ppew0s2qUcRL4ZX0",
+      authDomain: "vida-travel-vacation-credit.firebaseapp.com",
+      projectId: "vida-travel-vacation-credit",
+      storageBucket: "vida-travel-vacation-credit.firebasestorage.app",
+      messagingSenderId: "8569596534",
+      appId: "1:8569596534:web:8ef6043a23ab7288034d57"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    let analytics = null;
+    try {
+      // Only initialize analytics if measurementId is available
+      if (firebaseConfig.measurementId && firebaseConfig.measurementId !== 'G-XXXXXXXXXX') {
+        analytics = getAnalytics(app);
+      }
+    } catch (e) {
+      console.warn('Analytics initialization failed:', e);
+    }
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // Initialize Remote Config (optional - app works without it)
+    let remoteConfig = null;
+    try {
+      remoteConfig = getRemoteConfig(app);
+    // Set Remote Config settings
+    remoteConfig.settings = {
+      minimumFetchIntervalMillis: 3600000, // 1 hour
+    };
+    
+    // Set default values for Remote Config
+    remoteConfig.defaultConfig = {
+      package_price_base: 5000,
+      loan_size_base: 3000,
+      savings_period_base: 12,
+      bonus_incentive_base: 0,
+      messaging_headline_control: "0% de Interés Garantizado en tu Crédito de Viaje",
+      zero_interest_headline_es: "0% de Interés Garantizado",
+      zero_interest_headline_en: "0% Interest Guaranteed"
+    };
+    } catch (e) {
+      console.warn('Remote Config initialization failed:', e);
+    }
+    
+    // Make Firebase instances globally available
+    window.firebaseApp = app;
+    window.firebaseAnalytics = analytics;
+    window.firebaseLogEvent = logEvent; // Export logEvent function
+    window.firebaseAuth = auth;
+    window.firebaseDb = db;
+    window.firebaseRemoteConfig = remoteConfig;
+    
+    // Remote Config is optional - app works with defaults
+    // Remote Config can be configured later via Firebase Console if needed
+  </script>
+  
+  <!-- Google Analytics for Firebase -->
+  <!-- Only load if measurementId is configured -->
+  <script>
+    const measurementId = 'G-XXXXXXXXXX';
+    if (measurementId && measurementId !== 'G-XXXXXXXXXX') {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
+      
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+      gtag('config', measurementId);
+    }
+  </script>
+  
+  <!-- Meta Pixel Code -->
+  <!-- Only load if pixel ID is configured -->
+  <script>
+    const metaPixelId = 'YOUR_META_PIXEL_ID';
+    if (metaPixelId && metaPixelId !== 'YOUR_META_PIXEL_ID') {
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', metaPixelId);
+    fbq('track', 'PageView');
+      
+      const noscript = document.createElement('noscript');
+      const img = document.createElement('img');
+      img.height = 1;
+      img.width = 1;
+      img.style.display = 'none';
+      img.src = `https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`;
+      noscript.appendChild(img);
+      document.body.appendChild(noscript);
+    }
+  </script>
+  <!-- End Meta Pixel Code -->
+  
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/booking-style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="logo-container">
+        <img src="/images/vida-logo.png" alt="VIDA Travel Logo" class="logo" id="vida-logo" onerror="this.style.display='none'">
+        <h1 class="logo-text">VIDA Travel</h1>
+      </div>
+      <nav class="nav">
+        <a href="#how-it-works" data-i18n="nav.howItWorks">Cómo Funciona</a>
+        <a href="#simulator" data-i18n="nav.simulator">Simulador</a>
+        <a href="#chat" data-i18n="nav.chat">Chat</a>
+      </nav>
+      <div class="language-toggle">
+        <button class="lang-btn active" data-lang="es-MX" aria-label="Español">
+          <span>🇲🇽</span> <span>ES</span>
+        </button>
+        <button class="lang-btn" data-lang="en-US" aria-label="English">
+          <span>🇺🇸</span> <span>EN</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section with 0% Interest Messaging -->
+    <section class="hero">
+      <div class="zero-interest-badge">
+        <span data-i18n="zeroInterest.guarantee">0% de Interés Garantizado</span>
+      </div>
+      <div class="container">
+        <h1 id="main-headline" class="hero-headline" data-i18n="hero.headline">0% de Interés Garantizado en tu Crédito de Viaje</h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">Comienza a ahorrar para tu próxima aventura con el programa de crédito de vacaciones de VIDA</p>
+        <button class="cta-button" id="start-simulation-btn" data-i18n="hero.cta">Comenzar</button>
+      </div>
+    </section>
+
+    <!-- Zero Interest Badge Above Simulator -->
+    <section class="zero-interest-section">
+      <div class="container">
+        <div class="zero-interest-banner">
+          <span class="badge-icon">✓</span>
+          <span data-i18n="zeroInterest.badge">Financiamiento Sin Intereses Disponible</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simulator Section -->
+    <section id="simulator" class="simulator-section">
+      <div class="container">
+        <h2 data-i18n="simulator.title">Simulador de Crédito de Vacaciones</h2>
+        <form id="simulation-form" class="simulation-form">
+          <!-- Destination Selector -->
+          <div class="form-group">
+            <label data-i18n="simulator.destination">Destino</label>
+            <div id="destination-selector-container"></div>
+          </div>
+          
+          <!-- Date Picker (hidden initially, shown after financial inputs) -->
+          <div class="form-group" id="date-picker-group" style="display: none;">
+            <label for="travel-dates" data-i18n="simulator.checkIn">Fecha de entrada</label>
+            <div class="date-inputs">
+              <div class="date-input-wrapper">
+                <label for="travel-start" class="date-label" data-i18n="simulator.checkIn">Fecha de entrada</label>
+                <input type="date" id="travel-start" name="travelStart" required>
+              </div>
+              <span class="date-separator">→</span>
+              <div class="date-input-wrapper">
+                <label for="travel-end" class="date-label" data-i18n="simulator.checkOut">Fecha de salida</label>
+                <input type="date" id="travel-end" name="travelEnd" required>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Family Composition -->
+          <div class="form-group">
+            <label data-i18n="simulator.adults">Adultos</label>
+            <div class="family-composition">
+              <select id="adults" name="adults" required>
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+              </select>
+              <label for="children" data-i18n="simulator.children">Niños</label>
+              <input type="number" id="children" name="children" min="0" value="0" required>
+            </div>
+          </div>
+          
+          <!-- Financial Inputs -->
+          <div class="form-group">
+            <label for="salary" data-i18n="simulator.monthlySalary">Salario Mensual (MXN)</label>
+            <input type="number" id="salary" name="salary" required min="0" step="100" placeholder="15000" data-i18n="simulator.monthlySalary">
+          </div>
+          
+          <div class="form-group">
+            <label for="deposit-amount" data-i18n="simulator.weeklyDeposit">Depósito Semanal Deseado (MXN)</label>
+            <input type="number" id="deposit-amount" name="depositAmount" required min="0" step="100" placeholder="500" data-i18n="simulator.weeklyDeposit">
+          </div>
+          
+          <button type="submit" class="submit-button" id="submit-simulation-btn" data-i18n="simulator.calculate">Calcular Crédito de Vacaciones</button>
+        </form>
+        
+        <!-- Financial Visualizer Container -->
+        <div id="financial-visualizer-container"></div>
+        
+        <!-- Results Dashboard -->
+        <div id="simulation-results" class="simulation-results" style="display: none;">
+          <h3 data-i18n="results.title">Tu Plan de Crédito de Vacaciones</h3>
+          <div id="results-content"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" class="chat-section">
+      <div class="container">
+        <h2 data-i18n="chat.title">Chatea con Nuestro Asistente de Viajes</h2>
+        <div class="chat-container">
+          <div id="chat-messages" class="chat-messages"></div>
+          <div class="chat-input-container">
+            <input type="text" id="chat-input" data-i18n="chat.placeholder" placeholder="Pregúntame sobre planificación de vacaciones..." />
+            <button id="send-chat-btn" data-i18n="chat.send">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enrollment Section -->
+    <section id="enrollment" class="enrollment-section">
+      <div class="container">
+        <h2 data-i18n="enrollment.title">¿Listo para Comenzar tu Fondo de Vacaciones?</h2>
+        <button class="cta-button" id="enroll-btn" data-i18n="enrollment.cta">Pagar mi cuota de inscripción</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p data-i18n="footer.copyright">© 2024 VIDA Travel. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/i18n.js"></script>
+  <script src="/js/destination-selector.js"></script>
+  <script src="/js/date-picker.js"></script>
+  <script src="/js/financial-calculator.js"></script>
+  <script src="/js/financial-visualizer.js"></script>
+  <script src="/js/chat-widget.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

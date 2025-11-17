@@ -1,0 +1,75 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User inputs and session data - personalData structure
+    match /personalData/{appId}/users/{uid}/{collectionName}/{docId} {
+      allow get: if uid == request.auth.uid;
+      allow list: if uid == request.auth.uid && request.query.limit <= 100;
+      allow write: if uid == request.auth.uid;
+    }
+    
+    // Experiment variant assignments - tied to user sessions
+    match /experiments/{experimentId}/variants/{variantId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // User session data - requires authentication
+    match /sessions/{sessionId} {
+      allow read, write: if request.auth != null && 
+        (request.auth.uid == resource.data.userId || 
+         request.auth.uid == request.resource.data.userId);
+    }
+    
+    // User inputs collection - stores destination, dates, family composition, salary, deposits
+    match /userInputs/{inputId} {
+      allow read, write: if request.auth != null && 
+        (request.auth.uid == resource.data.userId || 
+         request.auth.uid == request.resource.data.userId);
+    }
+    
+    // Simulator Sessions - new collection for enhanced simulator
+    match /simulatorSessions/{sessionId} {
+      allow read: if true; // Allow read for session tracking
+      allow write: if true; // Allow write for session creation (can be restricted later)
+    }
+    
+    // Conversions - enrollment fee clicks and conversions
+    match /conversions/{conversionId} {
+      allow read: if true; // Analytics can read
+      allow write: if true; // Allow conversion tracking
+    }
+    
+    // Chat Sessions - conversation history
+    match /chatSessions/{sessionId}/messages/{messageId} {
+      allow read: if true; // Allow read for session continuity
+      allow write: if true; // Allow write for chat messages
+    }
+    
+    // Analytics Events - custom analytics tracking
+    match /analyticsEvents/{eventId} {
+      allow read: if true; // Analytics can read
+      allow write: if true; // Allow event tracking
+    }
+    
+    // A/B Test Variants
+    match /abTestVariants/{variantId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Conjoint Variants - for conjoint analysis
+    match /conjointVariants/{variantId} {
+      allow read: if true;
+      allow write: if true; // Allow variant assignment tracking
+    }
+    
+    // Public data - experiment configurations, etc.
+    match /publicData/{appId}/{collectionName}/{docId} {
+      allow get: if true;
+      allow list: if request.query.limit <= 100;
+      allow write: if request.auth != null;
+    }
+  }
+}
