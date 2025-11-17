@@ -39,3 +39,13 @@ build/
 # public/images/vida-logo.png
 # brand.md
 
+# Local test files
+public/test.html
+
+# Temporary files
+*.tmp
+*.bak
+
+# Local scripts (use with caution)
+setup-github.sh
+
