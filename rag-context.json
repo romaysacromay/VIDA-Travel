@@ -1,0 +1,239 @@
+{
+  "es-MX": {
+    "mission": {
+      "title": "Misión de VIDA Travel",
+      "content": "VIDA Travel es una plataforma de turismo doméstico dedicada a hacer los viajes accesibles para las familias mexicanas. Nuestro objetivo es promover el turismo dentro de México, ayudando a las personas a planear y financiar sus vacaciones soñadas con crédito sin intereses."
+    },
+    "model": {
+      "title": "Modelo de Negocio",
+      "content": "VIDA ofrece un programa de ahorro y crédito para vacaciones donde los usuarios ahorran el 80% del costo total del paquete y VIDA proporciona un préstamo sin intereses del 20% restante. El pago mensual del préstamo nunca excede el 15% del salario mensual del usuario, con plazos de 6 a 12 meses."
+    },
+    "simulator": {
+      "title": "Reglas del Simulador",
+      "rules": [
+        "El precio total se calcula: (adultos × precio_destino) + (niños × precio_destino × 0.25)",
+        "Los usuarios deben ahorrar el 80% del precio total antes del viaje",
+        "VIDA proporciona un préstamo sin intereses del 20% restante",
+        "El pago mensual del préstamo no puede exceder el 15% del salario mensual",
+        "El plazo del préstamo se ajusta automáticamente entre 6 y 12 meses para cumplir con la regla del 15%",
+        "Si el préstamo del 20% no puede cumplir la regla del 15% incluso a 12 meses, se sugiere aumentar el depósito semanal o elegir un destino más económico",
+        "Los precios varían según la temporada (alta, media, baja)",
+        "La fecha de salida garantizada se calcula basándose en las semanas necesarias para ahorrar el 80%"
+      ]
+    },
+    "destinations": {
+      "cancun": {
+        "name": "Cancún",
+        "description": "Destino de playa paradisíaco en el Caribe mexicano, conocido por sus playas de arena blanca, aguas turquesas y vida nocturna vibrante.",
+        "priceRange": "$20,000 - $25,000 MXN por persona",
+        "bestTime": "Diciembre a marzo (temporada alta)"
+      },
+      "puerto-vallarta": {
+        "name": "Puerto Vallarta",
+        "description": "Ciudad costera en la Bahía de Banderas, famosa por sus playas, malecón pintoresco y arquitectura colonial.",
+        "priceRange": "$15,000 - $20,000 MXN por persona",
+        "bestTime": "Diciembre a marzo (temporada alta)"
+      },
+      "los-cabos": {
+        "name": "Los Cabos",
+        "description": "Destino de lujo en la punta de la península de Baja California, conocido por sus campos de golf, resorts exclusivos y pesca deportiva.",
+        "priceRange": "$20,000 - $25,000 MXN por persona",
+        "bestTime": "Diciembre a marzo (temporada alta)"
+      },
+      "ciudad-de-mexico": {
+        "name": "Ciudad de México",
+        "description": "Capital cultural de México, rica en historia, museos, gastronomía y arquitectura colonial y moderna.",
+        "priceRange": "$10,000 - $15,000 MXN por persona",
+        "bestTime": "Diciembre a abril (temporada alta)"
+      },
+      "oaxaca": {
+        "name": "Oaxaca",
+        "description": "Estado rico en cultura indígena, gastronomía tradicional, arquitectura colonial y sitios arqueológicos como Monte Albán.",
+        "priceRange": "$10,000 - $15,000 MXN por persona",
+        "bestTime": "Diciembre a marzo y julio (temporada alta)"
+      },
+      "chiapas": {
+        "name": "Chiapas",
+        "description": "Estado con selvas tropicales, sitios arqueológicos mayas como Palenque, cascadas y cultura indígena vibrante.",
+        "priceRange": "$15,000 - $20,000 MXN por persona",
+        "bestTime": "Diciembre a abril (temporada alta)"
+      }
+    },
+    "financing": {
+      "title": "Financiamiento Sin Intereses",
+      "details": [
+        "VIDA ofrece crédito sin intereses (0%) para hasta el 20% del costo total del paquete",
+        "El préstamo se paga en 6 a 12 meses, dependiendo de tu capacidad de pago",
+        "El pago mensual nunca excede el 15% de tu salario mensual",
+        "No hay intereses, comisiones ocultas ni cargos adicionales",
+        "El plazo se ajusta automáticamente para asegurar que el pago mensual sea cómodo",
+        "Si necesitas más tiempo, puedes aumentar tu depósito semanal para reducir el monto del préstamo"
+      ],
+      "guarantee": "Garantizamos 0% de interés en todos nuestros préstamos de viaje"
+    },
+    "eligibility": {
+      "title": "Elegibilidad",
+      "requirements": [
+        "Debes tener un salario mensual estable",
+        "El pago mensual del préstamo no puede exceder el 15% de tu salario",
+        "Debes poder hacer depósitos semanales regulares para alcanzar el 80% del costo",
+        "El viaje debe ser dentro de México (turismo doméstico)",
+        "Máximo 2 adultos por reserva",
+        "Niños ilimitados (precio al 25% del precio de adulto)"
+      ]
+    },
+    "faqs": [
+      {
+        "question": "¿Cómo funciona el programa de crédito sin intereses?",
+        "answer": "Ahorras el 80% del costo total del paquete mediante depósitos semanales. VIDA te presta el 20% restante sin intereses, que pagas en 6 a 12 meses. Tu pago mensual nunca excederá el 15% de tu salario."
+      },
+      {
+        "question": "¿Realmente es 0% de interés?",
+        "answer": "Sí, garantizamos 0% de interés. No hay intereses, comisiones ocultas ni cargos adicionales. Solo pagas el monto exacto del préstamo dividido en pagos mensuales."
+      },
+      {
+        "question": "¿Cuánto tiempo tengo para ahorrar el 80%?",
+        "answer": "El tiempo depende de tu depósito semanal. El simulador calcula automáticamente cuántas semanas necesitas y te garantiza la fecha de salida más temprana posible."
+      },
+      {
+        "question": "¿Qué pasa si no puedo pagar el préstamo mensual?",
+        "answer": "El sistema ajusta automáticamente el plazo del préstamo (hasta 12 meses) para asegurar que tu pago mensual no exceda el 15% de tu salario. Si aún así es difícil, puedes aumentar tu depósito semanal para reducir el monto del préstamo."
+      },
+      {
+        "question": "¿Puedo elegir cualquier fecha de viaje?",
+        "answer": "Puedes seleccionar tus fechas deseadas, pero el simulador te indicará si son viables basándose en tu plan de ahorro. Si tus fechas son muy pronto, te sugerirá la fecha de salida garantizada más temprana."
+      },
+      {
+        "question": "¿Cómo se calcula el precio para niños?",
+        "answer": "Los niños pagan el 25% del precio de adulto, independientemente del destino elegido."
+      },
+      {
+        "question": "¿Los precios varían según la temporada?",
+        "answer": "Sí, los precios pueden variar según la temporada (alta, media, baja). El simulador calcula automáticamente el precio correcto basándose en tus fechas de viaje."
+      }
+    ],
+    "privacy": {
+      "title": "Privacidad y Seguridad",
+      "content": "VIDA protege tu información personal y financiera. Solo utilizamos tus datos para procesar tu solicitud de crédito y mejorar nuestros servicios. No compartimos tu información con terceros sin tu consentimiento."
+    }
+  },
+  "en-US": {
+    "mission": {
+      "title": "VIDA Travel Mission",
+      "content": "VIDA Travel is a domestic tourism platform dedicated to making travel accessible for Mexican families. Our goal is to promote tourism within Mexico, helping people plan and finance their dream vacations with interest-free credit."
+    },
+    "model": {
+      "title": "Business Model",
+      "content": "VIDA offers a vacation savings and credit program where users save 80% of the total package cost and VIDA provides an interest-free loan for the remaining 20%. The monthly loan payment never exceeds 15% of the user's monthly salary, with terms of 6 to 12 months."
+    },
+    "simulator": {
+      "title": "Simulator Rules",
+      "rules": [
+        "Total price is calculated: (adults × destination_price) + (children × destination_price × 0.25)",
+        "Users must save 80% of the total price before travel",
+        "VIDA provides an interest-free loan for the remaining 20%",
+        "Monthly loan payment cannot exceed 15% of monthly salary",
+        "Loan term is automatically adjusted between 6 and 12 months to meet the 15% rule",
+        "If the 20% loan cannot meet the 15% rule even at 12 months, suggest increasing weekly deposit or choosing a cheaper destination",
+        "Prices vary by season (high, medium, low)",
+        "Guaranteed departure date is calculated based on weeks needed to save 80%"
+      ]
+    },
+    "destinations": {
+      "cancun": {
+        "name": "Cancun",
+        "description": "Paradise beach destination in the Mexican Caribbean, known for white sand beaches, turquoise waters, and vibrant nightlife.",
+        "priceRange": "$20,000 - $25,000 MXN per person",
+        "bestTime": "December to March (high season)"
+      },
+      "puerto-vallarta": {
+        "name": "Puerto Vallarta",
+        "description": "Coastal city on Banderas Bay, famous for beaches, picturesque boardwalk, and colonial architecture.",
+        "priceRange": "$15,000 - $20,000 MXN per person",
+        "bestTime": "December to March (high season)"
+      },
+      "los-cabos": {
+        "name": "Los Cabos",
+        "description": "Luxury destination at the tip of the Baja California peninsula, known for golf courses, exclusive resorts, and sport fishing.",
+        "priceRange": "$20,000 - $25,000 MXN per person",
+        "bestTime": "December to March (high season)"
+      },
+      "ciudad-de-mexico": {
+        "name": "Mexico City",
+        "description": "Cultural capital of Mexico, rich in history, museums, gastronomy, and colonial and modern architecture.",
+        "priceRange": "$10,000 - $15,000 MXN per person",
+        "bestTime": "December to April (high season)"
+      },
+      "oaxaca": {
+        "name": "Oaxaca",
+        "description": "State rich in indigenous culture, traditional gastronomy, colonial architecture, and archaeological sites like Monte Albán.",
+        "priceRange": "$10,000 - $15,000 MXN per person",
+        "bestTime": "December to March and July (high season)"
+      },
+      "chiapas": {
+        "name": "Chiapas",
+        "description": "State with tropical jungles, Mayan archaeological sites like Palenque, waterfalls, and vibrant indigenous culture.",
+        "priceRange": "$15,000 - $20,000 MXN per person",
+        "bestTime": "December to April (high season)"
+      }
+    },
+    "financing": {
+      "title": "Interest-Free Financing",
+      "details": [
+        "VIDA offers interest-free (0%) credit for up to 20% of the total package cost",
+        "The loan is paid in 6 to 12 months, depending on your payment capacity",
+        "Monthly payment never exceeds 15% of your monthly salary",
+        "No interest, hidden fees, or additional charges",
+        "Term is automatically adjusted to ensure monthly payment is comfortable",
+        "If you need more time, you can increase your weekly deposit to reduce the loan amount"
+      ],
+      "guarantee": "We guarantee 0% interest on all our travel loans"
+    },
+    "eligibility": {
+      "title": "Eligibility",
+      "requirements": [
+        "You must have a stable monthly salary",
+        "Monthly loan payment cannot exceed 15% of your salary",
+        "You must be able to make regular weekly deposits to reach 80% of the cost",
+        "Travel must be within Mexico (domestic tourism)",
+        "Maximum 2 adults per reservation",
+        "Unlimited children (price at 25% of adult price)"
+      ]
+    },
+    "faqs": [
+      {
+        "question": "How does the interest-free credit program work?",
+        "answer": "You save 80% of the total package cost through weekly deposits. VIDA lends you the remaining 20% interest-free, which you pay in 6 to 12 months. Your monthly payment will never exceed 15% of your salary."
+      },
+      {
+        "question": "Is it really 0% interest?",
+        "answer": "Yes, we guarantee 0% interest. There are no interest charges, hidden fees, or additional costs. You only pay the exact loan amount divided into monthly payments."
+      },
+      {
+        "question": "How long do I have to save the 80%?",
+        "answer": "The time depends on your weekly deposit. The simulator automatically calculates how many weeks you need and guarantees the earliest possible departure date."
+      },
+      {
+        "question": "What if I can't pay the monthly loan payment?",
+        "answer": "The system automatically adjusts the loan term (up to 12 months) to ensure your monthly payment doesn't exceed 15% of your salary. If it's still difficult, you can increase your weekly deposit to reduce the loan amount."
+      },
+      {
+        "question": "Can I choose any travel date?",
+        "answer": "You can select your desired dates, but the simulator will indicate if they're viable based on your savings plan. If your dates are too soon, it will suggest the earliest guaranteed departure date."
+      },
+      {
+        "question": "How is the price calculated for children?",
+        "answer": "Children pay 25% of the adult price, regardless of the chosen destination."
+      },
+      {
+        "question": "Do prices vary by season?",
+        "answer": "Yes, prices can vary by season (high, medium, low). The simulator automatically calculates the correct price based on your travel dates."
+      }
+    ],
+    "privacy": {
+      "title": "Privacy and Security",
+      "content": "VIDA protects your personal and financial information. We only use your data to process your credit application and improve our services. We do not share your information with third parties without your consent."
+    }
+  }
+}
+

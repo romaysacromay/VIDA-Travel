@@ -1,0 +1,240 @@
+{
+  "destinations": {
+    "cancun": {
+      "name": {
+        "es-MX": "Cancún",
+        "en-US": "Cancun"
+      },
+      "basePrice": 22500,
+      "priceRange": {
+        "min": 20000,
+        "max": 25000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3],
+          "multiplier": 1.1,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-marzo)",
+            "en-US": "High season (December-March)"
+          }
+        },
+        "medium": {
+          "months": [4, 5, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (abril-mayo, noviembre)",
+            "en-US": "Medium season (April-May, November)"
+          }
+        },
+        "low": {
+          "months": [6, 7, 8, 9, 10],
+          "multiplier": 0.9,
+          "description": {
+            "es-MX": "Temporada baja (junio-octubre)",
+            "en-US": "Low season (June-October)"
+          }
+        }
+      }
+    },
+    "puerto-vallarta": {
+      "name": {
+        "es-MX": "Puerto Vallarta",
+        "en-US": "Puerto Vallarta"
+      },
+      "basePrice": 17500,
+      "priceRange": {
+        "min": 15000,
+        "max": 20000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3],
+          "multiplier": 1.1,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-marzo)",
+            "en-US": "High season (December-March)"
+          }
+        },
+        "medium": {
+          "months": [4, 5, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (abril-mayo, noviembre)",
+            "en-US": "Medium season (April-May, November)"
+          }
+        },
+        "low": {
+          "months": [6, 7, 8, 9, 10],
+          "multiplier": 0.9,
+          "description": {
+            "es-MX": "Temporada baja (junio-octubre)",
+            "en-US": "Low season (June-October)"
+          }
+        }
+      }
+    },
+    "los-cabos": {
+      "name": {
+        "es-MX": "Los Cabos",
+        "en-US": "Los Cabos"
+      },
+      "basePrice": 22500,
+      "priceRange": {
+        "min": 20000,
+        "max": 25000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3],
+          "multiplier": 1.1,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-marzo)",
+            "en-US": "High season (December-March)"
+          }
+        },
+        "medium": {
+          "months": [4, 5, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (abril-mayo, noviembre)",
+            "en-US": "Medium season (April-May, November)"
+          }
+        },
+        "low": {
+          "months": [6, 7, 8, 9, 10],
+          "multiplier": 0.9,
+          "description": {
+            "es-MX": "Temporada baja (junio-octubre)",
+            "en-US": "Low season (June-October)"
+          }
+        }
+      }
+    },
+    "ciudad-de-mexico": {
+      "name": {
+        "es-MX": "Ciudad de México",
+        "en-US": "Mexico City"
+      },
+      "basePrice": 12500,
+      "priceRange": {
+        "min": 10000,
+        "max": 15000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3, 4],
+          "multiplier": 1.05,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-abril)",
+            "en-US": "High season (December-April)"
+          }
+        },
+        "medium": {
+          "months": [5, 6, 10, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (mayo-junio, octubre-noviembre)",
+            "en-US": "Medium season (May-June, October-November)"
+          }
+        },
+        "low": {
+          "months": [7, 8, 9],
+          "multiplier": 0.95,
+          "description": {
+            "es-MX": "Temporada baja (julio-septiembre)",
+            "en-US": "Low season (July-September)"
+          }
+        }
+      }
+    },
+    "oaxaca": {
+      "name": {
+        "es-MX": "Oaxaca",
+        "en-US": "Oaxaca"
+      },
+      "basePrice": 12500,
+      "priceRange": {
+        "min": 10000,
+        "max": 15000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3, 7],
+          "multiplier": 1.05,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-marzo, julio)",
+            "en-US": "High season (December-March, July)"
+          }
+        },
+        "medium": {
+          "months": [4, 5, 6, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (abril-junio, noviembre)",
+            "en-US": "Medium season (April-June, November)"
+          }
+        },
+        "low": {
+          "months": [8, 9, 10],
+          "multiplier": 0.95,
+          "description": {
+            "es-MX": "Temporada baja (agosto-octubre)",
+            "en-US": "Low season (August-October)"
+          }
+        }
+      }
+    },
+    "chiapas": {
+      "name": {
+        "es-MX": "Chiapas",
+        "en-US": "Chiapas"
+      },
+      "basePrice": 17500,
+      "priceRange": {
+        "min": 15000,
+        "max": 20000
+      },
+      "seasonalPricing": {
+        "high": {
+          "months": [12, 1, 2, 3, 4],
+          "multiplier": 1.05,
+          "description": {
+            "es-MX": "Temporada alta (diciembre-abril)",
+            "en-US": "High season (December-April)"
+          }
+        },
+        "medium": {
+          "months": [5, 6, 10, 11],
+          "multiplier": 1.0,
+          "description": {
+            "es-MX": "Temporada media (mayo-junio, octubre-noviembre)",
+            "en-US": "Medium season (May-June, October-November)"
+          }
+        },
+        "low": {
+          "months": [7, 8, 9],
+          "multiplier": 0.95,
+          "description": {
+            "es-MX": "Temporada baja (julio-septiembre)",
+            "en-US": "Low season (July-September)"
+          }
+        }
+      }
+    }
+  },
+  "childrenDiscount": 0.25,
+  "savingsTargetPercentage": 0.8,
+  "loanPercentage": 0.2,
+  "loanTermRange": {
+    "min": 6,
+    "max": 12
+  },
+  "maxMonthlyPaymentPercentage": 0.15,
+  "currency": "MXN",
+  "packageDuration": {
+    "min": 5,
+    "max": 7
+  }
+}
+
