@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VIDA Travel - Planifica tu viaje soñado con 0% de interés. Ahorra y viaja por México con crédito transparente.">
+  <meta name="keywords" content="viajes México, crédito sin interés, vacaciones familiares, Cancún, Playa del Carmen">
+  <meta name="theme-color" content="#004E50">
+  
+  <title>VIDA Travel - Viaja Ahora, Paga Después | 0% Interés Garantizado</title>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VIDA Travel - 0% Interés en Vacaciones">
+  <meta property="og:description" content="Planifica tu viaje soñado. Ahorra semanalmente y viaja con crédito sin interés.">
+  <meta property="og:image" content="/assets/og-image.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="VIDA Travel - 0% Interés en Vacaciones">
+  <meta property="twitter:description" content="Planifica tu viaje soñado con crédito transparente.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); // Replace with actual Pixel ID
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" />
+  </noscript>
+  <!-- End Meta Pixel Code -->
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getRemoteConfig, fetchAndActivate, getValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-remote-config.js';
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXLqx9s0qv7UbQPP8Ppew0s2qUcRL4ZX0",
+      authDomain: "vida-travel-vacation-credit.firebaseapp.com",
+      projectId: "vida-travel-vacation-credit",
+      storageBucket: "vida-travel-vacation-credit.firebasestorage.app",
+      messagingSenderId: "8569596534",
+      appId: "1:8569596534:web:8ef6043a23ab7288034d57",
+      measurementId: "G-XXXXXXXXXX" // Replace if using GA4
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    
+    let analytics = null;
+    try {
+      if (firebaseConfig.measurementId && firebaseConfig.measurementId !== 'G-XXXXXXXXXX') {
+        analytics = getAnalytics(app);
+      }
+    } catch (e) {
+      console.warn('Analytics initialization skipped:', e.message);
+    }
+    
+    const db = getFirestore(app);
+    const remoteConfig = getRemoteConfig(app);
+    
+    remoteConfig.settings.minimumFetchIntervalMillis = 3600000; // 1 hour
+    remoteConfig.defaultConfig = {
+      variant_id: 'control',
+      package_price_multiplier: 1.0,
+      loan_percentage: 0.20,
+      theme_color: '#2563eb',
+      messaging_headline_es: '0% de Interés Garantizado',
+      messaging_headline_en: '0% Interest Guaranteed',
+      bonus_incentive: 0
+    };
+    
+    // Make available globally
+    window.firebaseApp = app;
+    window.firebaseAnalytics = analytics;
+    window.firebaseDb = db;
+    window.firebaseRemoteConfig = remoteConfig;
+    
+    console.log('✅ Firebase initialized successfully');
+  </script>
+</head>
+
+<body>
+  <!-- Skip to main content (accessibility) -->
+  <a href="#main-content" class="sr-only">Ir al contenido principal</a>
+  
+  <!-- Top Progress Bar -->
+  <div id="top-progress-bar" style="position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: #E5E7EB; z-index: 9999;">
+    <div id="top-progress-fill" style="height: 100%; width: 0%; background: var(--vida-light-teal); transition: width 0.3s ease;"></div>
+  </div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo-container">
+        <a href="/" aria-label="VIDA Travel - Inicio">
+          <!-- Logo placeholder - replace with actual logo -->
+          <img src="/assets/Logo_1.0.png" alt="VIDA Travel" class="logo" 
+               onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%2250%22%3E%3Ctext x=%2210%22 y=%2235%22 font-family=%22Poppins, sans-serif%22 font-size=%2228%22 font-weight=%22700%22 fill=%22%23004E50%22%3EVIDA%3C/text%3E%3C/svg%3E';">
+        </a>
+      </div>
+      
+      <nav class="nav" role="navigation" aria-label="Navegación principal">
+        <ul class="nav-menu">
+          <li><a href="#how-it-works" class="nav-link" data-i18n="nav.howItWorks">Cómo Funciona</a></li>
+          <li><a href="#calculator" class="nav-link" data-i18n="nav.calculator">Calculadora</a></li>
+          <li>
+            <div class="language-toggle" role="group" aria-label="Selector de idioma">
+              <button type="button" id="lang-es" class="active" data-lang="es" aria-pressed="true">ES</button>
+              <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero" role="banner">
+    <div class="container">
+      <div class="hero-content">
+        <h1 id="hero-headline" data-i18n="hero.headline">
+          Tu Viaje Soñado con 0% de Interés
+        </h1>
+        <p id="hero-subheadline" data-i18n="hero.subheadline">
+          Planifica, ahorra semanalmente y viaja por México sin preocupaciones
+        </p>
+        <a href="#calculator" class="btn btn-secondary btn-large">
+          <span data-i18n="hero.cta">Planifica Tu Viaje</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <main id="main-content">
+    
+    <!-- How It Works -->
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <h2 class="text-center" data-i18n="howItWorks.title">¿Cómo Funciona?</h2>
+        <div class="grid grid-3 mt-xl">
+          <div class="card text-center">
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">📍</div>
+            <h3 data-i18n="howItWorks.step1.title">Elige Tu Destino</h3>
+            <p data-i18n="howItWorks.step1.description">
+              Selecciona entre los mejores destinos de México y define el número de viajeros
+            </p>
+          </div>
+          
+          <div class="card text-center">
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">💰</div>
+            <h3 data-i18n="howItWorks.step2.title">Calcula Tu Plan</h3>
+            <p data-i18n="howItWorks.step2.description">
+              Ingresa tu salario y ahorro semanal. Calculamos tu fecha más cercana de viaje
+            </p>
+          </div>
+          
+          <div class="card text-center">
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">✈️</div>
+            <h3 data-i18n="howItWorks.step3.title">¡Viaja Sin Intereses!</h3>
+            <p data-i18n="howItWorks.step3.description">
+              Ahorra el 80%, nosotros cubrimos el 20% sin interés. Paga solo $500 de inscripción
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Vacation Credit Simulator -->
+    <section id="calculator" class="section" style="background-color: white;">
+      <div class="container">
+        <h2 class="text-center" data-i18n="simulator.title">Planifica Tu Viaje en 5 Pasos</h2>
+        
+        <!-- Step 1: Destination & Travelers -->
+        <div id="step-1" class="journey-step active" data-step="1">
+          <div class="step-header">
+            <span class="step-number">1</span>
+            <h3 data-i18n="simulator.step1.title">Selecciona Tu Destino y Viajeros</h3>
+            <p data-i18n="simulator.step1.subtitle">¿A dónde quieres viajar?</p>
+          </div>
+          
+          <div id="destinations-grid" class="grid grid-3 mb-xl">
+            <!-- Destination cards will be loaded dynamically -->
+            <div class="skeleton" style="height: 280px;"></div>
+            <div class="skeleton" style="height: 280px;"></div>
+            <div class="skeleton" style="height: 280px;"></div>
+            <div class="skeleton" style="height: 280px;"></div>
+            <div class="skeleton" style="height: 280px;"></div>
+            <div class="skeleton" style="height: 280px;"></div>
+          </div>
+          
+          <div class="grid grid-2 mb-xl">
+            <div class="form-group">
+              <label for="adults-count" class="form-label form-label-required" data-i18n="simulator.step1.adultsLabel">
+                Número de Adultos
+              </label>
+              <select id="adults-count" class="form-select" required aria-required="true">
+                <option value="1">1 adulto</option>
+                <option value="2" selected>2 adultos</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="children-count" class="form-label" data-i18n="simulator.step1.childrenLabel">
+                Número de Niños (opcional)
+              </label>
+              <select id="children-count" class="form-select" aria-describedby="children-help">
+                <option value="0" selected>0 niños</option>
+                <option value="1">1 niño</option>
+                <option value="2">2 niños</option>
+                <option value="3">3 niños</option>
+                <option value="4">4 niños</option>
+                <option value="5">5 niños</option>
+                <option value="6">6 niños</option>
+                <option value="7">7 niños</option>
+                <option value="8">8 niños</option>
+              </select>
+              <small id="children-help" class="form-help" data-i18n="simulator.step1.childrenHelp">
+                Los niños cuestan 25% del precio de adulto
+              </small>
+            </div>
+          </div>
+          
+          <div id="package-price-preview" class="card text-center mb-xl" style="background: var(--vida-gradient-teal-gold); color: white; display: none;">
+            <h4 style="color: white; margin-bottom: var(--space-xs);" data-i18n="simulator.step1.packageTotal">
+              Precio Total del Paquete
+            </h4>
+            <div style="font-size: 2.5rem; font-weight: 700; font-family: var(--font-display);">
+              <span id="package-price-amount">$0</span> <small style="font-size: 1.5rem;">MXN</small>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" id="step1-continue" class="btn btn-primary btn-large" disabled>
+              <span data-i18n="simulator.continue">Continuar</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Step 2: Financial Information -->
+        <div id="step-2" class="journey-step" data-step="2">
+          <div class="step-header">
+            <span class="step-number">2</span>
+            <h3 data-i18n="simulator.step2.title">Información Financiera</h3>
+            <p data-i18n="simulator.step2.subtitle">Cuéntanos sobre tu capacidad de ahorro</p>
+          </div>
+          
+          <div class="grid grid-2 mb-xl">
+            <div class="form-group">
+              <label for="monthly-salary" class="form-label form-label-required" data-i18n="simulator.step2.salaryLabel">
+                Salario Mensual del Hogar
+              </label>
+              <div style="position: relative;">
+                <span style="position: absolute; left: 12px; top: 12px; color: var(--vida-charcoal);">$</span>
+                <input 
+                  type="number" 
+                  id="monthly-salary" 
+                  class="form-input" 
+                  placeholder="25000" 
+                  min="8000" 
+                  step="1000"
+                  required 
+                  aria-required="true"
+                  aria-describedby="salary-help"
+                  style="padding-left: 28px;">
+              </div>
+              <small id="salary-help" class="form-help" data-i18n="simulator.step2.salaryHelp">
+                Mínimo $8,000 MXN mensuales
+              </small>
+            </div>
+            
+            <div class="form-group">
+              <label for="weekly-deposit" class="form-label form-label-required" data-i18n="simulator.step2.depositLabel">
+                Ahorro Semanal Deseado
+              </label>
+              <div style="position: relative;">
+                <span style="position: absolute; left: 12px; top: 12px; color: var(--vida-charcoal);">$</span>
+                <input 
+                  type="number" 
+                  id="weekly-deposit" 
+                  class="form-input" 
+                  placeholder="1000" 
+                  min="100" 
+                  step="100"
+                  required 
+                  aria-required="true"
+                  aria-describedby="deposit-help"
+                  style="padding-left: 28px;">
+              </div>
+              <small id="deposit-help" class="form-help" data-i18n="simulator.step2.depositHelp">
+                ¿Cuánto puedes ahorrar cada semana?
+              </small>
+              <div id="deposit-error" class="form-error" style="display: none;"></div>
+            </div>
+          </div>
+          
+          <div id="payment-cap-info" class="card" style="background-color: rgba(132, 198, 193, 0.1); border: 1px solid var(--vida-light-teal); display: none;">
+            <h4 style="color: var(--vida-deep-teal); margin-bottom: var(--space-sm);">
+              <span aria-hidden="true">ℹ️</span> <span data-i18n="simulator.step2.capInfo.title">Límite de Pago Mensual</span>
+            </h4>
+            <p data-i18n="simulator.step2.capInfo.description">
+              Para tu protección, limitamos el pago mensual total (ahorro + préstamo) al 15% de tu salario.
+            </p>
+            <div class="mt-sm">
+              <strong data-i18n="simulator.step2.capInfo.yourLimit">Tu límite mensual:</strong>
+              <span id="monthly-limit-amount" style="color: var(--vida-warm-gold); font-size: 1.25rem; font-weight: 600;">$0</span>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" id="step2-back" class="btn btn-tertiary">
+              <span aria-hidden="true">←</span>
+              <span data-i18n="simulator.back">Regresar</span>
+            </button>
+            <button type="button" id="step2-continue" class="btn btn-primary btn-large" disabled>
+              <span data-i18n="simulator.continue">Continuar</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Step 3: Savings Calculator & Results -->
+        <div id="step-3" class="journey-step" data-step="3">
+          <div class="step-header">
+            <span class="step-number">3</span>
+            <h3 data-i18n="simulator.step3.title">Tu Plan de Ahorro Personalizado</h3>
+            <p data-i18n="simulator.step3.subtitle">Así es como alcanzarás tu viaje</p>
+          </div>
+          
+          <div class="grid grid-2 mb-xl">
+            <div class="card">
+              <h4 data-i18n="simulator.step3.savingsBreakdown">Desglose de Ahorro</h4>
+              <div class="mt-md">
+                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+                  <span data-i18n="simulator.step3.yourSavings">Tu Ahorro (80%):</span>
+                  <strong id="user-savings-amount" style="color: var(--vida-deep-teal);">$0</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+                  <span data-i18n="simulator.step3.vidaCredit">Crédito VIDA (0% ↗):</span>
+                  <strong id="loan-amount" style="color: var(--vida-warm-gold);">$0</strong>
+                </div>
+                <hr style="border: none; border-top: 2px solid var(--vida-light-teal); margin: var(--space-sm) 0;">
+                <div style="display: flex; justify-content: space-between;">
+                  <strong data-i18n="simulator.step3.totalPackage">Total del Paquete:</strong>
+                  <strong id="total-package-amount" style="color: var(--vida-deep-teal); font-size: 1.25rem;">$0</strong>
+                </div>
+              </div>
+              
+              <div class="mt-lg">
+                <div class="progress-with-milestones">
+                  <div class="progress">
+                    <div id="savings-progress-fill" class="progress-fill" style="width: 0%;" 
+                         role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                         aria-label="Progreso de ahorro">
+                    </div>
+                  </div>
+                  <div class="progress-milestones">
+                    <div class="progress-milestone" data-milestone="25"></div>
+                    <div class="progress-milestone" data-milestone="50"></div>
+                    <div class="progress-milestone" data-milestone="75"></div>
+                    <div class="progress-milestone" data-milestone="100"></div>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: var(--space-xs); font-size: 0.875rem; color: #6B7280;">
+                  <span>0%</span>
+                  <span id="savings-percentage">80%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <h4 data-i18n="simulator.step3.timeline">Línea de Tiempo</h4>
+              <div class="mt-md">
+                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-md); padding-bottom: var(--space-sm); border-bottom: 1px solid #E5E7EB;">
+                  <div>
+                    <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step3.savingsWeeks">
+                      Semanas de Ahorro
+                    </small>
+                    <strong id="savings-weeks" style="font-size: 1.5rem; color: var(--vida-deep-teal);">0</strong>
+                  </div>
+                  <div>
+                    <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step3.weeklyAmount">
+                      Ahorro Semanal
+                    </small>
+                    <strong id="weekly-savings-display" style="font-size: 1.5rem; color: var(--vida-light-teal);">$0</strong>
+                  </div>
+                </div>
+                
+                <div style="background-color: var(--vida-off-white); padding: var(--space-md); border-radius: var(--radius-md);">
+                  <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
+                    <span style="font-size: 2rem;" aria-hidden="true">📅</span>
+                    <div>
+                      <small style="color: #6B7280; display: block;" data-i18n="simulator.step3.earliestCheckIn">
+                        Fecha Más Cercana de Check-in
+                      </small>
+                      <strong id="earliest-checkin-date" style="font-size: 1.25rem; color: var(--vida-deep-teal);">
+                        -- --- ----
+                      </strong>
+                    </div>
+                  </div>
+                  <p style="font-size: 0.875rem; color: #6B7280; margin: 0;" data-i18n="simulator.step3.dateExplanation">
+                    Esta es la fecha más cercana en que podrás viajar, basada en tu plan de ahorro
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="payment-schedule" class="card mb-xl">
+            <h4 data-i18n="simulator.step3.monthlyPayments">Pagos Mensuales</h4>
+            <div class="mt-md">
+              <div style="display: flex; justify-content: space-between; padding: var(--space-sm); background-color: var(--vida-off-white); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                <span data-i18n="simulator.step3.monthlyDeposits">Depósitos Mensuales:</span>
+                <strong id="monthly-deposits-amount" style="color: var(--vida-deep-teal);">$0</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--space-sm); background-color: var(--vida-off-white); border-radius: var(--radius-md); margin-bottom: var(--space-sm);">
+                <span data-i18n="simulator.step3.monthlyLoan">Pago de Préstamo (12 meses):</span>
+                <strong id="monthly-loan-payment" style="color: var(--vida-warm-gold);">$0</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--space-md); background: var(--vida-gradient-teal-gold); color: white; border-radius: var(--radius-md); font-size: 1.125rem;">
+                <strong data-i18n="simulator.step3.totalMonthly">Total Mensual:</strong>
+                <strong id="total-monthly-payment">$0</strong>
+              </div>
+              <p style="font-size: 0.875rem; color: #6B7280; margin-top: var(--space-sm); text-align: center;" data-i18n="simulator.step3.paymentNote">
+                Esto representa el <strong id="payment-percentage">0%</strong> de tu salario mensual
+              </p>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" id="step3-back" class="btn btn-tertiary">
+              <span aria-hidden="true">←</span>
+              <span data-i18n="simulator.back">Regresar</span>
+            </button>
+            <button type="button" id="step3-continue" class="btn btn-primary btn-large">
+              <span data-i18n="simulator.continue">Continuar</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Step 4: Date Selection -->
+        <div id="step-4" class="journey-step" data-step="4">
+          <div class="step-header">
+            <span class="step-number">4</span>
+            <h3 data-i18n="simulator.step4.title">Selecciona Tus Fechas de Viaje</h3>
+            <p data-i18n="simulator.step4.subtitle">¿Cuándo quieres viajar?</p>
+          </div>
+          
+          <div class="card mb-xl" style="background-color: rgba(195, 165, 116, 0.1); border: 2px solid var(--vida-warm-gold);">
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <span style="font-size: 2rem;" aria-hidden="true">⚠️</span>
+              <div>
+                <h4 style="color: var(--vida-deep-teal); margin-bottom: var(--space-xs);" data-i18n="simulator.step4.restriction.title">
+                  Restricción de Fechas
+                </h4>
+                <p style="margin: 0;" data-i18n="simulator.step4.restriction.description">
+                  Solo puedes seleccionar fechas a partir de <strong id="date-restriction-display">-- --- ----</strong>
+                  porque ese es cuando habrás ahorrado el monto requerido.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="grid grid-2 mb-xl">
+            <div class="form-group">
+              <label for="checkin-date" class="form-label form-label-required" data-i18n="simulator.step4.checkinLabel">
+                Fecha de Check-in
+              </label>
+              <input 
+                type="date" 
+                id="checkin-date" 
+                class="form-input" 
+                required 
+                aria-required="true"
+                disabled
+                aria-describedby="checkin-help">
+              <small id="checkin-help" class="form-help" data-i18n="simulator.step4.checkinHelp">
+                Primera fecha disponible basada en tu ahorro
+              </small>
+            </div>
+            
+            <div class="form-group">
+              <label for="checkout-date" class="form-label form-label-required" data-i18n="simulator.step4.checkoutLabel">
+                Fecha de Check-out
+              </label>
+              <input 
+                type="date" 
+                id="checkout-date" 
+                class="form-input" 
+                required 
+                aria-required="true"
+                disabled
+                aria-describedby="checkout-help">
+              <small id="checkout-help" class="form-help" data-i18n="simulator.step4.checkoutHelp">
+                Entre 3 y 14 noches de estancia
+              </small>
+            </div>
+          </div>
+          
+          <div id="trip-summary" class="card" style="background: white; display: none;">
+            <h4 data-i18n="simulator.step4.summary.title">Resumen de Tu Viaje</h4>
+            <div class="grid grid-2 mt-md" style="gap: var(--space-md);">
+              <div>
+                <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step4.summary.destination">
+                  Destino
+                </small>
+                <strong id="summary-destination" style="color: var(--vida-deep-teal);">--</strong>
+              </div>
+              <div>
+                <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step4.summary.travelers">
+                  Viajeros
+                </small>
+                <strong id="summary-travelers" style="color: var(--vida-deep-teal);">--</strong>
+              </div>
+              <div>
+                <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step4.summary.dates">
+                  Fechas
+                </small>
+                <strong id="summary-dates" style="color: var(--vida-deep-teal);">-- a --</strong>
+              </div>
+              <div>
+                <small style="color: #6B7280; display: block; margin-bottom: 4px;" data-i18n="simulator.step4.summary.nights">
+                  Noches
+                </small>
+                <strong id="summary-nights" style="color: var(--vida-deep-teal);">--</strong>
+              </div>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" id="step4-back" class="btn btn-tertiary">
+              <span aria-hidden="true">←</span>
+              <span data-i18n="simulator.back">Regresar</span>
+            </button>
+            <button type="button" id="step4-continue" class="btn btn-primary btn-large" disabled>
+              <span data-i18n="simulator.continue">Continuar</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Step 5: Payment -->
+        <div id="step-5" class="journey-step" data-step="5">
+          <div class="step-header">
+            <span class="step-number">5</span>
+            <h3 data-i18n="simulator.step5.title">Asegura Tu Lugar</h3>
+            <p data-i18n="simulator.step5.subtitle">Paga tu cuota de inscripción para comenzar tu plan</p>
+          </div>
+          
+          <div class="grid grid-2 mb-xl" style="align-items: start;">
+            <div>
+              <div class="card" style="background: var(--vida-gradient-teal-gold); color: white; margin-bottom: var(--space-md);">
+                <h4 style="color: white; margin-bottom: var(--space-md);" data-i18n="simulator.step5.enrollment.title">
+                  Cuota de Inscripción
+                </h4>
+                <div style="font-size: 3rem; font-weight: 700; font-family: var(--font-display); margin-bottom: var(--space-sm);">
+                  $500 <small style="font-size: 1.5rem;">MXN</small>
+                </div>
+                <p style="margin: 0; opacity: 0.9;" data-i18n="simulator.step5.enrollment.description">
+                  Pago único para activar tu plan de ahorro y asegurar tu reserva
+                </p>
+              </div>
+              
+              <div class="card" style="background-color: var(--vida-off-white);">
+                <h5 style="margin-bottom: var(--space-sm);" data-i18n="simulator.step5.whatIncludes.title">
+                  ¿Qué Incluye?
+                </h5>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                  <li style="padding: var(--space-xs) 0; display: flex; align-items: start; gap: var(--space-xs);">
+                    <span style="color: var(--vida-light-teal);" aria-hidden="true">✓</span>
+                    <span data-i18n="simulator.step5.whatIncludes.item1">Activación de tu plan de ahorro personalizado</span>
+                  </li>
+                  <li style="padding: var(--space-xs) 0; display: flex; align-items: start; gap: var(--space-xs);">
+                    <span style="color: var(--vida-light-teal);" aria-hidden="true">✓</span>
+                    <span data-i18n="simulator.step5.whatIncludes.item2">Garantía de 0% de interés en tu crédito</span>
+                  </li>
+                  <li style="padding: var(--space-xs) 0; display: flex; align-items: start; gap: var(--space-xs);">
+                    <span style="color: var(--vida-light-teal);" aria-hidden="true">✓</span>
+                    <span data-i18n="simulator.step5.whatIncludes.item3">Asesoría personalizada durante todo el proceso</span>
+                  </li>
+                  <li style="padding: var(--space-xs) 0; display: flex; align-items: start; gap: var(--space-xs);">
+                    <span style="color: var(--vida-light-teal);" aria-hidden="true">✓</span>
+                    <span data-i18n="simulator.step5.whatIncludes.item4">Acceso a ofertas exclusivas en destinos</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div>
+              <form id="payment-form" class="card">
+                <h4 data-i18n="simulator.step5.form.title">Información de Pago</h4>
+                
+                <div class="form-group">
+                  <label for="cardholder-name" class="form-label form-label-required" data-i18n="simulator.step5.form.nameLabel">
+                    Nombre del Titular
+                  </label>
+                  <input 
+                    type="text" 
+                    id="cardholder-name" 
+                    class="form-input" 
+                    placeholder="Juan Pérez" 
+                    required 
+                    aria-required="true">
+                </div>
+                
+                <div class="form-group">
+                  <label for="email" class="form-label form-label-required" data-i18n="simulator.step5.form.emailLabel">
+                    Correo Electrónico
+                  </label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    class="form-input" 
+                    placeholder="juan@ejemplo.com" 
+                    required 
+                    aria-required="true">
+                </div>
+                
+                <div class="form-group">
+                  <label for="phone" class="form-label form-label-required" data-i18n="simulator.step5.form.phoneLabel">
+                    Teléfono
+                  </label>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    class="form-input" 
+                    placeholder="+52 55 1234 5678" 
+                    required 
+                    aria-required="true">
+                </div>
+                
+                <div class="form-group">
+                  <label for="card-number" class="form-label form-label-required" data-i18n="simulator.step5.form.cardLabel">
+                    Número de Tarjeta
+                  </label>
+                  <input 
+                    type="text" 
+                    id="card-number" 
+                    class="form-input" 
+                    placeholder="1234 5678 9012 3456" 
+                    maxlength="19"
+                    required 
+                    aria-required="true">
+                </div>
+                
+                <div class="grid grid-2">
+                  <div class="form-group">
+                    <label for="expiry-date" class="form-label form-label-required" data-i18n="simulator.step5.form.expiryLabel">
+                      Fecha de Expiración
+                    </label>
+                    <input 
+                      type="text" 
+                      id="expiry-date" 
+                      class="form-input" 
+                      placeholder="MM/AA" 
+                      maxlength="5"
+                      required 
+                      aria-required="true">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="cvv" class="form-label form-label-required" data-i18n="simulator.step5.form.cvvLabel">
+                      CVV
+                    </label>
+                    <input 
+                      type="text" 
+                      id="cvv" 
+                      class="form-input" 
+                      placeholder="123" 
+                      maxlength="4"
+                      required 
+                      aria-required="true">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label">
+                    <input type="checkbox" id="terms-accept" required aria-required="true" style="margin-right: var(--space-xs);">
+                    <span data-i18n="simulator.step5.form.termsLabel">
+                      Acepto los <a href="/terms" target="_blank">términos y condiciones</a>
+                    </span>
+                  </label>
+                </div>
+                
+                <button type="submit" id="payment-submit" class="btn btn-secondary btn-large btn-block">
+                  <span data-i18n="simulator.step5.form.submitButton">Pagar $500 MXN</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+                
+                <p style="font-size: 0.75rem; color: #6B7280; margin-top: var(--space-sm); text-align: center;">
+                  <span aria-hidden="true">🔒</span> <span data-i18n="simulator.step5.form.secureNote">Pago seguro procesado de forma encriptada</span>
+                </p>
+              </form>
+            </div>
+          </div>
+          
+          <div class="step-actions">
+            <button type="button" id="step5-back" class="btn btn-tertiary">
+              <span aria-hidden="true">←</span>
+              <span data-i18n="simulator.back">Regresar</span>
+            </button>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- Trust Section -->
+    <section class="section" style="background: var(--vida-gradient-light-teal);">
+      <div class="container text-center">
+        <h2 data-i18n="trust.title">¿Por Qué Confiar en VIDA?</h2>
+        <div class="grid grid-3 mt-xl">
+          <div>
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">🔒</div>
+            <h4 data-i18n="trust.security.title">100% Seguro</h4>
+            <p data-i18n="trust.security.description">
+              Tus datos están protegidos con encriptación de grado bancario
+            </p>
+          </div>
+          <div>
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">💯</div>
+            <h4 data-i18n="trust.transparent.title">Totalmente Transparente</h4>
+            <p data-i18n="trust.transparent.description">
+              Sin cargos ocultos, sin sorpresas. Todo está calculado y explicado
+            </p>
+          </div>
+          <div>
+            <div style="font-size: 3rem; margin-bottom: var(--space-sm);">🤝</div>
+            <h4 data-i18n="trust.support.title">Soporte Dedicado</h4>
+            <p data-i18n="trust.support.description">
+              Nuestro equipo está aquí para ayudarte en cada paso del camino
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+  
+  <!-- Footer -->
+  <footer style="background-color: var(--vida-charcoal); color: white; padding: var(--space-xxl) 0;">
+    <div class="container">
+      <div class="grid grid-3" style="margin-bottom: var(--space-xl);">
+        <div>
+          <h5 style="color: white; margin-bottom: var(--space-sm);" data-i18n="footer.company">Empresa</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: var(--space-xs);"><a href="/about" style="color: rgba(255,255,255,0.8);" data-i18n="footer.about">Nosotros</a></li>
+            <li style="margin-bottom: var(--space-xs);"><a href="/faq" style="color: rgba(255,255,255,0.8);" data-i18n="footer.faq">Preguntas Frecuentes</a></li>
+            <li style="margin-bottom: var(--space-xs);"><a href="/contact" style="color: rgba(255,255,255,0.8);" data-i18n="footer.contact">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 style="color: white; margin-bottom: var(--space-sm);" data-i18n="footer.legal">Legal</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: var(--space-xs);"><a href="/terms" style="color: rgba(255,255,255,0.8);" data-i18n="footer.terms">Términos y Condiciones</a></li>
+            <li style="margin-bottom: var(--space-xs);"><a href="/privacy" style="color: rgba(255,255,255,0.8);" data-i18n="footer.privacy">Política de Privacidad</a></li>
+            <li style="margin-bottom: var(--space-xs);"><a href="/cookies" style="color: rgba(255,255,255,0.8);" data-i18n="footer.cookies">Política de Cookies</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 style="color: white; margin-bottom: var(--space-sm);" data-i18n="footer.followUs">Síguenos</h5>
+          <div style="display: flex; gap: var(--space-sm);">
+            <a href="https://facebook.com/vidatravel" target="_blank" rel="noopener" aria-label="Facebook" 
+               style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+              f
+            </a>
+            <a href="https://instagram.com/vidatravel" target="_blank" rel="noopener" aria-label="Instagram" 
+               style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+              📷
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; padding-top: var(--space-md); border-top: 1px solid rgba(255,255,255,0.2);">
+        <p style="color: rgba(255,255,255,0.6); font-size: 0.875rem; margin: 0;">
+          © 2024 VIDA Travel. <span data-i18n="footer.copyright">Todos los derechos reservados.</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Chat Widget -->
+  <div id="chat-widget" style="position: fixed; bottom: 24px; right: 24px; z-index: 1000;">
+    <button id="chat-toggle" class="btn btn-primary" 
+            style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; padding: 0;"
+            aria-label="Abrir chat de ayuda">
+      💬
+    </button>
+  </div>
+  
+  <!-- Success Modal -->
+  <div id="success-modal" class="modal-backdrop">
+    <div class="modal" role="dialog" aria-labelledby="success-modal-title" aria-modal="true">
+      <button type="button" class="modal-close" aria-label="Cerrar modal">×</button>
+      <div class="modal-header">
+        <h3 id="success-modal-title" data-i18n="successModal.title">¡Pago Exitoso!</h3>
+      </div>
+      <div class="modal-body text-center">
+        <div style="font-size: 4rem; margin-bottom: var(--space-md);">🎉</div>
+        <p style="font-size: 1.125rem; margin-bottom: var(--space-md);" data-i18n="successModal.message">
+          Tu plan de ahorro ha sido activado. Recibirás un correo con todos los detalles.
+        </p>
+        <p style="color: #6B7280;" data-i18n="successModal.nextSteps">
+          ¿Qué sigue? Comienza a hacer tus depósitos semanales y te recordaremos tu progreso.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" onclick="location.reload()" data-i18n="successModal.button">
+          Planificar Otro Viaje
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="text-align: center; color: white;">
+      <div class="spinner" style="margin: 0 auto var(--space-md); border-color: #E5E7EB; border-top-color: var(--vida-light-teal);"></div>
+      <p id="loading-message" data-i18n="loading.processing">Procesando tu pago...</p>
+    </div>
+  </div>
+  
+  <!-- JavaScript Modules -->
+  <script type="module" src="/js/i18n.js"></script>
+  <script type="module" src="/js/utm-tracker.js"></script>
+  <script type="module" src="/js/variant-manager.js"></script>
+  <script type="module" src="/js/meta-tracking.js"></script>
+  <script type="module" src="/js/analytics.js"></script>
+  <script type="module" src="/js/financial-calculator.js"></script>
+  <script type="module" src="/js/financial-visualizer.js"></script>
+  <script type="module" src="/js/date-picker.js"></script>
+  <script type="module" src="/js/activation-payment.js"></script>
+  <script type="module" src="/js/chat-widget.js"></script>
+  <script type="module" src="/js/app.js"></script>
+  
+</body>
+</html>
+

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Viaja ahora, paga después. Crédito vacacional transparente y sin intereses para familias mexicanas.">
+    <!-- Force fresh content, no caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>VIDA - Crédito Vacacional Sin Intereses</title>
+  
+  <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logo-header.png">
+  
+    <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '872606122006111');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=872606122006111&ev=PageView&noscript=1"
+  /></noscript>
+  
+    <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css?v=20251124j">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-remote-config-compat.js"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="/logo-header.png" alt="VIDA" class="logo-img">
+            </a>
+            <button class="lang-toggle" id="langToggle">
+                <span data-lang-key="nav-lang">EN</span>
+            </button>
+      </div>
+      </nav>
+
+    <!-- Main Content -->
+    <main>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+                <div class="badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+                    <span data-lang-key="hero-badge">Ahora disponible en México</span>
+                </div>
+                <h1 class="hero-title" data-lang-key="hero-title">
+                    ¡Obtén tu crédito<br>vacacional gratis!
+                </h1>
+                <p class="hero-subtitle" data-lang-key="hero-subtitle">
+                    Reservamos tu viaje <strong>HOY</strong> desde <strong>$10,000 MXN</strong>. Pagas semanalmente, viajas cuando termines.
+                </p>
+                <button class="btn-primary btn-large" id="heroCtaBtn" data-lang-key="hero-cta">
+                    Obtener mi crédito gratis
+                </button>
+                
+                <!-- Hero Visual -->
+                <div class="hero-visual">
+                    <div class="hero-gradient-blobs"></div>
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="phone-content">
+                                <!-- Status Bar -->
+                                <div class="status-bar">
+                                    <div class="status-time">16:42</div>
+                                    <div class="status-icons">
+                                        <svg class="status-icon" width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="3" width="3" height="6" rx="0.5" fill="currentColor"/><rect x="4.5" y="2" width="3" height="8" rx="0.5" fill="currentColor"/><rect x="9" y="1" width="3" height="10" rx="0.5" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="currentColor"/></svg>
+                                        <svg class="status-icon" width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M1 6C1 3.79 2.79 2 5 2C6.5 2 7.77 2.77 8.5 4H17V8H8.5C7.77 9.23 6.5 10 5 10C2.79 10 1 8.21 1 6Z" fill="currentColor"/></svg>
+                                        <rect x="0" y="0" width="22" height="12" rx="2.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="23" y="4" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.4"/>
+      </div>
+    </div>
+                                
+                                <!-- App Header -->
+                                <div class="app-header">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg>
+                                    <span style="flex: 1; text-align: center; font-weight: 600;" data-lang-key="phone-myPlan">Mi Plan de Viaje</span>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                </div>
+                                
+                                <!-- Destination Card -->
+                                <div class="mock-card">
+                                    <div style="padding: 16px; padding-top: 24px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#006B5E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                                <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: var(--color-gray-900);">Cancún</h3>
+                                            </div>
+                                            <span style="background: #E8F5E9; color: #2E7D32; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;" data-lang-key="phone-active">Activo</span>
+        </div>
+                                        <div style="display: flex; gap: 8px; align-items: center; color: var(--color-gray-600); font-size: 13px; margin-bottom: 16px;">
+                                            <div style="display: flex; align-items: center; gap: 4px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                <span><span>4</span> <span data-lang-key="phone-daysNights">días / 3 noches</span></span>
+                                            </div>
+                                            <div style="display: flex; align-items: center; gap: 4px;">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+                                                <span><span>2</span> <span data-lang-key="phone-adults">adultos</span></span>
+                                            </div>
+        </div>
+                                        
+                                        <!-- Price -->
+                                        <div style="background: var(--color-gray-50); border-radius: 12px; padding: 12px; margin-bottom: 12px;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                                <span style="color: var(--color-gray-600); font-size: 13px;" data-lang-key="phone-packageCost">Costo del paquete</span>
+                                                <span style="font-weight: 700; font-size: 20px; color: var(--color-primary);">$15,000</span>
+        </div>
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <span style="color: var(--color-gray-600); font-size: 13px;" data-lang-key="phone-weeklyPayment">Pago semanal</span>
+                                                <span style="font-weight: 600; color: var(--color-gray-900);">$1,000</span>
+      </div>
+    </div>
+                                        
+                                        <!-- Progress -->
+                                        <div style="margin-bottom: 12px;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                                <span style="font-size: 13px; color: var(--color-gray-600);" data-lang-key="phone-progress">Progreso</span>
+                                                <span style="font-size: 13px; font-weight: 600; color: var(--color-primary);">40%</span>
+                                            </div>
+                                            <div style="height: 8px; background: #E0E0E0; border-radius: 4px; overflow: hidden;">
+                                                <div style="width: 40%; height: 100%; background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);"></div>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+                                                <span style="font-size: 12px; color: var(--color-gray-500);">$6,000 <span data-lang-key="phone-paid">pagado</span></span>
+                                                <span style="font-size: 12px; color: var(--color-gray-500);">$9,000 <span data-lang-key="phone-remaining">restante</span></span>
+                                            </div>
+          </div>
+          
+                                        <!-- Travel Date -->
+                                        <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 107, 94, 0.05) 100%); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 12px; text-align: center;">
+                                            <div style="font-size: 12px; color: var(--color-gray-600); margin-bottom: 4px;" data-lang-key="phone-travelDate">Fecha de viaje</div>
+                                            <div style="font-size: 16px; font-weight: 700; color: var(--color-primary);">15 Mayo 2025</div>
+                                            <div style="font-size: 11px; color: var(--color-gray-500); margin-top: 2px;">9 <span data-lang-key="phone-weeksRemaining">semanas restantes</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Key Benefits -->
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="benefit-text" data-lang-key="benefit-1">Fechas de viaje garantizadas</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.28 9.05a5.5 5.5 0 1 0-10.56 0A5.5 5.5 0 1 0 12 17.66a5.5 5.5 0 1 0 5.28-8.6Z"></path><path d="M12 17.66L12 22"></path></svg>
+                        </div>
+                        <div class="benefit-text" data-lang-key="benefit-2">6 destinos increíbles</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+              </div>
+                        <div class="benefit-text" data-lang-key="benefit-3">Pausa pagos hasta 6 meses</div>
+              </div>
+            </div>
+            
+                <div class="disclaimer" data-lang-key="hero-disclaimer">
+                    *Sujeto a términos y condiciones
+              </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-lang-key="hiw-title">Tu viaje, tu ritmo.</h2>
+                    <p data-lang-key="hiw-subtitle">
+                        Empieza en 2 minutos.<br>Activa desde cualquier lugar.
+            </p>
+          </div>
+          
+                <!-- Pricing Card -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-label" data-lang-key="pricing-label">Precio del paquete</div>
+                        <div class="pricing-amount" id="pricingAmount">$15,000</div>
+                        <div class="pricing-details">
+                            <div class="pricing-feature">
+                                <span class="pricing-feature-icon">✓</span>
+                                <span data-lang-key="pricing-free-credit">Crédito gratis sin comisiones ni intereses</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <span class="pricing-feature-icon">✓</span>
+                                <span data-lang-key="pricing-weekly-payment">Pagos semanales pequeños y flexibles</span>
+                            </div>
+                            <div class="pricing-feature">
+                                <span class="pricing-feature-icon">✓</span>
+                                <span data-lang-key="pricing-timeline">Tiempo estimado: 10-20 semanas</span>
+                            </div>
+            </div>
+              
+                        <!-- Package Includes -->
+                        <div class="package-includes">
+                            <h3 class="package-includes-title" data-lang-key="package-includes-title">¿Qué incluye tu paquete?</h3>
+                            <div class="package-includes-grid">
+                                <div class="package-include-item">
+                                    <div class="package-include-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    </div>
+                                    <div class="package-include-text">
+                                        <strong data-lang-key="package-flight">Vuelo</strong>
+                                        <span data-lang-key="package-flight-desc">Ida y vuelta</span>
+                                    </div>
+                                </div>
+                                <div class="package-include-item">
+                                    <div class="package-include-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    </div>
+                                    <div class="package-include-text">
+                                        <strong data-lang-key="package-hotel">Hotel 4 estrellas</strong>
+                                        <span data-lang-key="package-hotel-desc">Alojamiento premium</span>
+                                    </div>
+                                </div>
+                                <div class="package-include-item">
+                                    <div class="package-include-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"></path><path d="M21 15v7"></path></svg>
+                                    </div>
+                                    <div class="package-include-text">
+                                        <strong data-lang-key="package-meals">2 comidas diarias</strong>
+                                        <span data-lang-key="package-meals-desc">Para 2 viajeros</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+          </div>
+          
+                <!-- Feature Cards -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-1-title">Simple</h3>
+                        <p data-lang-key="feature-1-desc">Un plan transparente sin cargos ocultos ni intereses complicados.</p>
+          </div>
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-2-title">Rápido y fácil</h3>
+                        <p data-lang-key="feature-2-desc">Comienza en minutos. Solo necesitas tu información básica.</p>
+        </div>
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-3-title">Para todos</h3>
+                        <p data-lang-key="feature-3-desc">Sin score de crédito. Sin trámites complicados. Solo tu compromiso.</p>
+              </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- Destinations -->
+        <section class="destinations">
+            <div class="container">
+                <div class="section-eyebrow" data-lang-key="dest-eyebrow">El mundo es tuyo</div>
+                <h2 class="section-title" data-lang-key="dest-title">
+                    ¿Nuestros destinos?<br>Nos alegra que preguntes.
+                </h2>
+                <p class="section-subtitle" data-lang-key="dest-subtitle">
+                    Experimenta los mejores destinos de México. Desde playas caribeñas hasta ciudades coloniales.
+                </p>
+                
+                <div style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 107, 94, 0.05) 100%); border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                    <p style="font-size: 1.125rem; font-weight: 600; color: var(--color-primary); margin: 0; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        <span data-lang-key="destinations-cta">Haz clic en un destino para obtener tu crédito vacacional</span>
+                    </p>
+                </div>
+
+                <div class="destinations-grid" id="destinationsGrid">
+                    <!-- Destinations will be loaded dynamically -->
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                </div>
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                </div>
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="testimonials-title">Lo aman, tú también lo harás</h2>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-1-quote">
+                            "Un cambio total para las familias mexicanas"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-1-author">María G.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-2-quote">
+                            "Sin más estrés por planificar. Todo está asegurado"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-2-author">Carlos R.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-3-quote">
+                            "Legítimamente la mejor experiencia de crédito"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-3-author">Ana L.</div>
+                </div>
+                </div>
+              </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq">
+            <div class="container">
+                <div class="section-eyebrow" data-lang-key="faq-eyebrow">Preguntas</div>
+                <h2 class="section-title" data-lang-key="faq-title">¿Tienes preguntas? Aquí las respuestas.</h2>
+                
+                <div class="faq-list" id="faqList">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-1-q">¿Qué es VIDA?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-1-a">VIDA es un plan de crédito vacacional que te garantiza tus fechas de viaje. Nosotros reservamos y pagamos tus vuelos, hotel y tours mientras tú pagas. Viaja tranquilo con todo asegurado desde el inicio.</p>
+              </div>
+            </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-2-q">¿A qué destinos puedo viajar?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-2-a">Estamos activos en 6 destinos premium de México: Cancún, Playa del Carmen, Tulum, Cabo San Lucas, Puerto Vallarta y Ciudad de México.</p>
+            </div>
+          </div>
+          
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-3-q">¿Puedo cambiar mi plan de pago?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-3-a">Sí, puedes ajustar tus depósitos semanales en cualquier momento. El sistema recalculará automáticamente tu fecha de viaje disponible.</p>
+          </div>
+        </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-4-q">¿Necesito historial crediticio?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-4-a">No. VIDA está diseñado para ser accesible para todos. Solo necesitas tu compromiso de pago y un depósito de activación de $500 MXN.</p>
+          </div>
+            </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-5-q">¿Cuánto cuesta?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-5-a">Los paquetes empiezan desde $10,000 MXN. Pagas solo el costo del viaje + $500 MXN de activación (que ya se aplican a tu paquete). Sin intereses, sin mensualidades.</p>
+              </div>
+            </div>
+            
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-6-q">¿Puedo cambiar o pausar mi plan?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-6-a">Puedes mover tus fechas hasta 1 mes antes del viaje. También puedes pausar pagos hasta 6 meses. A partir de 1 mes antes del viaje se aplican cargos por cambios menores. Si no completas el pago final 1 semana antes, el monto no es reembolsable.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- Steps CTA -->
+        <section class="steps-cta">
+            <div class="container">
+                <div class="steps-content">
+                    <h3 class="steps-title" data-lang-key="steps-title">Empieza en 2 minutos</h3>
+                    <ol class="steps-list">
+                        <li class="step-item">
+                            <span class="step-number">1</span>
+                            <span class="step-text" data-lang-key="step-1">Elige destino</span>
+                        </li>
+                        <li class="step-item">
+                            <span class="step-number">2</span>
+                            <span class="step-text" data-lang-key="step-2">Planifica pagos</span>
+                        </li>
+                        <li class="step-item">
+                            <span class="step-number">3</span>
+                            <span class="step-text" data-lang-key="step-3">¡A viajar!</span>
+                        </li>
+                    </ol>
+                    <div class="steps-note">
+                        <span data-lang-key="steps-note">Sí, lo cronometramos.</span>
+                        <span class="note-emoji">⏱️</span>
+          </div>
+        </div>
+
+                <div class="cta-card">
+                    <div class="cta-content">
+                    <h3 class="cta-title" data-lang-key="cta-title">
+                        Un plan,<br>un precio.
+                    </h3>
+                    <div class="cta-price">$500</div>
+                    <div class="cta-period" data-lang-key="cta-period">Activación (aplicado al paquete)</div>
+                    </div>
+                    <button class="btn-primary btn-large" id="ctaBtn" data-lang-key="cta-button">
+                        Planifica tu viaje
+                    </button>
+          </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="/logo-footer.png" alt="VIDA">
+              </div>
+                    <p style="color: var(--color-gray-500); font-size: 0.875rem; line-height: 1.6;">
+                        Crédito vacacional transparente para familias mexicanas.
+                    </p>
+              </div>
+              
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-1">Lo Bueno</div>
+                    <a href="/" class="footer-link" data-lang-key="footer-home">Inicio</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-about">Nosotros</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-destinations">Destinos</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-careers">Carreras</a>
+              </div>
+              
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-2">Lo Legal</div>
+                    <a href="#" class="footer-link" data-lang-key="footer-terms">Términos</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-rules">Las Reglas</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-privacy">Privacidad</a>
+                </div>
+                
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-3">Lo Social</div>
+                    <a href="#" class="footer-link">Instagram</a>
+                    <a href="#" class="footer-link">Facebook</a>
+                    <a href="#" class="footer-link">Twitter</a>
+                </div>
+              </div>
+              
+            <div class="footer-bottom">
+                <div class="footer-cta-card">
+                    <h3 class="footer-cta-title" data-lang-key="footer-cta-title">Un plan, un precio.</h3>
+                    <div class="footer-cta-price">$500</div>
+                    <div class="footer-cta-period" data-lang-key="footer-cta-period">Activación</div>
+          </div>
+          </div>
+    </div>
+  </footer>
+
+    <!-- Floating Mobile CTA -->
+    <div class="mobile-cta" id="mobileCtaBar">
+        <button class="btn-primary btn-block" id="mobileCtaBtn" data-lang-key="mobile-cta">
+            Planifica tu viaje
+        </button>
+  </div>
+
+    <!-- Simulator Modal -->
+    <div class="modal" id="simulatorModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Simulator content will be injected here -->
+      </div>
+        </div>
+      </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/app.js?v=20251124n"></script>
+</body>
+</html>
+

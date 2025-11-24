@@ -1,0 +1,738 @@
+<!-- 
+  VIDA Travel - Enrollment Form
+  Include this in your modal or create a separate page
+-->
+
+<div class="enrollment-container">
+  
+  <!-- Step 1: User Information -->
+  <div id="user-info-section" class="form-section">
+    <h2 data-i18n="enrollment.title">Información Personal</h2>
+    <p class="form-subtitle" data-i18n="enrollment.subtitle">Completa tus datos para activar tu crédito vacacional</p>
+    
+    <form id="user-info-form" novalidate>
+      <!-- Name -->
+      <div class="form-group">
+        <label for="user-name" data-i18n="enrollment.nameLabel">Nombre Completo *</label>
+        <input 
+          type="text" 
+          id="user-name" 
+          name="name"
+          data-i18n="enrollment.namePlaceholder"
+          placeholder="Juan Pérez García"
+          required
+          minlength="3"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="user-email" data-i18n="enrollment.emailLabel">Correo Electrónico *</label>
+        <input 
+          type="email" 
+          id="user-email" 
+          name="email"
+          data-i18n="enrollment.emailPlaceholder"
+          placeholder="tu@email.com"
+          required
+        />
+        <small data-i18n="enrollment.emailNote">Enviaremos un código de verificación a este email</small>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="user-phone" data-i18n="enrollment.phoneLabel">Teléfono (10 dígitos) *</label>
+        <input 
+          type="tel" 
+          id="user-phone" 
+          name="phone"
+          data-i18n="enrollment.phonePlaceholder"
+          placeholder="555-123-4567"
+          required
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        />
+      </div>
+
+      <!-- Region/State -->
+      <div class="form-group">
+        <label for="user-region" data-i18n="enrollment.regionLabel">Estado de la República *</label>
+        <select id="user-region" name="region" required>
+          <option value="" data-i18n="enrollment.regionPlaceholder">Selecciona tu estado</option>
+          <option value="AGU">Aguascalientes</option>
+          <option value="BCN">Baja California</option>
+          <option value="BCS">Baja California Sur</option>
+          <option value="CAM">Campeche</option>
+          <option value="CHP">Chiapas</option>
+          <option value="CHH">Chihuahua</option>
+          <option value="CMX">Ciudad de México</option>
+          <option value="COA">Coahuila</option>
+          <option value="COL">Colima</option>
+          <option value="DUR">Durango</option>
+          <option value="GUA">Guanajuato</option>
+          <option value="GRO">Guerrero</option>
+          <option value="HID">Hidalgo</option>
+          <option value="JAL">Jalisco</option>
+          <option value="MEX">México</option>
+          <option value="MIC">Michoacán</option>
+          <option value="MOR">Morelos</option>
+          <option value="NAY">Nayarit</option>
+          <option value="NLE">Nuevo León</option>
+          <option value="OAX">Oaxaca</option>
+          <option value="PUE">Puebla</option>
+          <option value="QUE">Querétaro</option>
+          <option value="ROO">Quintana Roo</option>
+          <option value="SLP">San Luis Potosí</option>
+          <option value="SIN">Sinaloa</option>
+          <option value="SON">Sonora</option>
+          <option value="TAB">Tabasco</option>
+          <option value="TAM">Tamaulipas</option>
+          <option value="TLA">Tlaxcala</option>
+          <option value="VER">Veracruz</option>
+          <option value="YUC">Yucatán</option>
+          <option value="ZAC">Zacatecas</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-primary btn-large" data-i18n="enrollment.continue">
+        Continuar
+      </button>
+    </form>
+  </div>
+
+  <!-- Step 2: OTP Verification -->
+  <div id="otp-section" class="form-section" style="display: none;">
+    <div class="otp-header">
+      <h2 data-i18n="enrollment.otpTitle">Verifica tu Email</h2>
+      <p data-i18n="enrollment.otpSent">Enviamos un código de 6 dígitos a:</p>
+      <p class="email-display"><strong id="otp-email-display"></strong></p>
+    </div>
+
+    <div class="form-group">
+      <label for="otp-code" data-i18n="enrollment.otpLabel">Código de Verificación</label>
+      <input 
+        type="text" 
+        id="otp-code" 
+        name="otp"
+        data-i18n="enrollment.otpPlaceholder"
+        placeholder="000000"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        required
+        class="otp-input"
+        autocomplete="off"
+      />
+    </div>
+
+    <button id="verify-otp-btn" class="btn-primary btn-large" data-i18n="enrollment.verifyButton">
+      Verificar Código
+    </button>
+
+    <div class="otp-note">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+        <circle cx="10" cy="10" r="9" stroke="#3B82F6" stroke-width="2"/>
+        <path d="M10 6V10L13 13" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span><span data-i18n="enrollment.otpNote">¿No recibiste el código? Revisa tu carpeta de spam. Podrás reenviarlo en</span> <strong><span id="countdown-display">60</span> <span data-i18n="enrollment.otpSeconds">segundos</span></strong>.</span>
+    </div>
+
+    <button id="resend-otp-btn" class="btn-primary" disabled data-i18n="enrollment.resendButton">
+      Reenviar Código
+    </button>
+  </div>
+
+  <!-- Step 3: Activation ($500) -->
+  <div id="activation-section" class="form-section" style="display: none;">
+    <div class="activation-header">
+      <div class="check-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="32" fill="#10B981"/>
+          <path d="M20 32L28 40L44 24" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 data-i18n="enrollment.verifiedTitle">Email Verificado</h2>
+      <p data-i18n="enrollment.verifiedSubtitle">Tu información ha sido confirmada</p>
+    </div>
+
+    <div class="activation-card">
+      <h3 data-i18n="enrollment.summaryTitle">Resumen de tu Reserva</h3>
+      
+      <!-- Trip Details -->
+      <div class="trip-details-card">
+        <div class="trip-detail-row">
+          <span class="detail-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
+              <path d="M10 2C8.62 2 7.5 3.12 7.5 4.5C7.5 5.88 8.62 7 10 7C11.38 7 12.5 5.88 12.5 4.5C12.5 3.12 11.38 2 10 2ZM10 18L6 13H8V9C8 8.45 8.45 8 9 8H11C11.55 8 12 8.45 12 9V13H14L10 18Z" fill="#006B5E"/>
+            </svg>
+            <span data-i18n="enrollment.destination">Destino</span>
+          </span>
+          <span class="detail-value" id="booking-destination">-</span>
+        </div>
+        
+        <div class="trip-detail-row">
+          <span class="detail-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
+              <rect x="3" y="4" width="14" height="14" rx="2" stroke="#006B5E" stroke-width="2" fill="none"/>
+              <path d="M7 2V6M13 2V6M3 8H17" stroke="#006B5E" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span data-i18n="enrollment.travelDate">Fecha de viaje</span>
+          </span>
+          <span class="detail-value" id="booking-travel-date">-</span>
+        </div>
+        
+        <div class="trip-detail-row">
+          <span class="detail-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
+              <circle cx="10" cy="8" r="3" stroke="#006B5E" stroke-width="2" fill="none"/>
+              <path d="M5 15C5 12.5 7 11 10 11C13 11 15 12.5 15 15" stroke="#006B5E" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span data-i18n="enrollment.travelers">Viajeros</span>
+          </span>
+          <span class="detail-value" id="booking-travelers">-</span>
+        </div>
+        
+        <div class="trip-detail-row">
+          <span class="detail-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
+              <path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="#006B5E" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span data-i18n="enrollment.totalCost">Costo total del paquete</span>
+          </span>
+          <span class="detail-value" id="booking-total-price">-</span>
+        </div>
+        
+        <div class="trip-detail-row">
+          <span class="detail-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
+              <rect x="3" y="5" width="14" height="12" rx="2" stroke="#006B5E" stroke-width="2" fill="none"/>
+              <path d="M7 5V3M13 5V3M3 9H17" stroke="#006B5E" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span data-i18n="enrollment.weeklyPayment">Pago semanal</span>
+          </span>
+          <span class="detail-value" id="booking-weekly-payment">-</span>
+        </div>
+      </div>
+      
+      <div class="price-card">
+        <div class="price-label" data-i18n="enrollment.depositLabel">Depósito de activación</div>
+        <div class="price-amount">$500 MXN</div>
+        <div class="price-note" data-i18n="enrollment.depositNote">Este monto se aplica directamente a tu paquete</div>
+      </div>
+
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <span class="benefit-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8L6.5 11.5L13 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span data-i18n="enrollment.benefit1">Fechas de viaje garantizadas</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8L6.5 11.5L13 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span data-i18n="enrollment.benefit2">Sin intereses ni cargos ocultos</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8L6.5 11.5L13 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span data-i18n="enrollment.benefit3">Pausa pagos hasta 6 meses</span>
+        </div>
+      </div>
+
+      <button id="activate-credit-btn" class="btn-primary btn-large btn-activate" data-i18n="enrollment.activateButton">
+        Activar crédito ($500)
+      </button>
+
+      <p class="terms-note">
+        <span data-i18n="enrollment.termsNote">Al activar, aceptas nuestros</span> 
+        <a href="/terms" target="_blank" data-i18n="enrollment.terms">términos y condiciones</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Messages & Loading -->
+  <div id="form-message" class="form-message" style="display: none;"></div>
+  <div id="loading-indicator" class="loading-indicator" style="display: none;">
+    <div class="spinner"></div>
+    <span data-i18n="enrollment.loading">Cargando...</span>
+  </div>
+
+</div>
+
+<style>
+/* Enrollment Form Styles */
+.enrollment-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-section {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+  color: #006B5E;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.form-subtitle {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #006B5E;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+  font-size: 12px;
+}
+
+.field-error {
+  display: block;
+  margin-top: 6px;
+  color: #EF4444;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-primary, .btn-secondary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #006B5E 0%, #008C7A 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #008C7A 0%, #00A08E 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,107,94,0.3);
+}
+
+.btn-primary:active:not(:disabled) {
+  background: linear-gradient(135deg, #004D43 0%, #006B5E 100%);
+  transform: translateY(0);
+}
+
+.btn-primary:focus {
+  outline: 2px solid #006B5E;
+  outline-offset: 2px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #666;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+#resend-otp-btn {
+  margin-top: 15px;
+}
+
+#countdown-display {
+  color: #006B5E;
+  font-weight: 700;
+}
+
+.btn-large {
+  font-size: 18px;
+  padding: 18px;
+}
+
+/* OTP Section */
+.otp-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.email-display {
+  color: #006B5E;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.otp-input {
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 8px;
+  font-weight: 600;
+}
+
+.otp-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #666;
+  font-size: 13px;
+  margin-top: 20px;
+  padding: 12px;
+  background: #F0F9FF;
+  border-radius: 8px;
+  border-left: 3px solid #3B82F6;
+}
+
+.otp-note span {
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* Activation Section */
+.activation-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.check-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.check-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+.activation-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 107, 94, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.activation-card h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.trip-details-card {
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.trip-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F3F4F6;
+  gap: 16px;
+}
+
+.trip-detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-value {
+  flex-shrink: 0;
+  text-align: right;
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .trip-detail-row {
+    gap: 24px;
+  }
+  
+  .detail-label {
+    font-size: 13px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  
+  .detail-value {
+    margin-left: 16px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+}
+
+.detail-value {
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.price-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.price-label {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.price-amount {
+  font-size: 48px;
+  font-weight: 800;
+  color: #006B5E;
+  margin: 10px 0;
+}
+
+.price-note {
+  color: #999;
+  font-size: 13px;
+}
+
+.benefits-list {
+  margin: 20px 0;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.benefit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background: #10b981;
+  color: white;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.benefit-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-activate {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #006B5E 0%, #008C7A 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.btn-activate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 107, 94, 0.4);
+}
+
+.terms-note {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 15px;
+}
+
+.terms-note a {
+  color: #006B5E;
+  text-decoration: underline;
+}
+
+/* Messages */
+.form-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.form-message.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+.form-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.form-message.info {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #3b82f6;
+}
+
+/* Loading */
+.loading-indicator {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #006B5E;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success Modal */
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.success-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.success-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.success-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.success-content h2 {
+  color: #10b981;
+  margin-bottom: 15px;
+}
+
+.success-details {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.success-details p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.success-note {
+  color: #666;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .enrollment-container {
+    padding: 10px;
+  }
+
+  .form-section {
+    padding: 20px;
+  }
+
+  .price-amount {
+    font-size: 36px;
+  }
+}
+</style>
+

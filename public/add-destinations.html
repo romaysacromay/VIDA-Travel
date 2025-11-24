@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Destinations - VIDA Travel Admin</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #006B5E;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #006B5E;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #004D43;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌴 Add Destinations to Firestore</h1>
+        <p>Click the button below to add 6 destinations to your Firestore database.</p>
+        
+        <button id="addBtn" onclick="addDestinations()">Add 6 Destinations</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDjpPEHQ7Y_vXKZ0YqW8uJ5zGxJ_8nN9xM",
+            authDomain: "vida-travel-vacation-credit.firebaseapp.com",
+            projectId: "vida-travel-vacation-credit",
+            storageBucket: "vida-travel-vacation-credit.firebasestorage.app",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdef123456"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const destinations = [
+            {
+                id: 'cancun',
+                name: { es: 'Cancún', en: 'Cancun' },
+                basePrice: 15000,
+                description: {
+                    es: 'Playas de arena blanca, aguas turquesas y vida nocturna vibrante. El paraíso caribeño perfecto.',
+                    en: 'White sand beaches, turquoise waters, and vibrant nightlife. The perfect Caribbean paradise.'
+                },
+                highlights: {
+                    es: ['Zona Hotelera', 'Isla Mujeres', 'Parques acuáticos', 'Ruinas mayas cercanas'],
+                    en: ['Hotel Zone', 'Isla Mujeres', 'Water parks', 'Nearby Mayan ruins']
+                },
+                imageUrl: '/assets/destinations/cancun.jpg',
+                active: true,
+                order: 1
+            },
+            {
+                id: 'playadelcarmen',
+                name: { es: 'Playa del Carmen', en: 'Playa del Carmen' },
+                basePrice: 13000,
+                description: {
+                    es: 'Ambiente cosmopolita, cenotes mágicos y la famosa Quinta Avenida. Perfecto para familias aventureras.',
+                    en: 'Cosmopolitan atmosphere, magical cenotes, and the famous Fifth Avenue. Perfect for adventurous families.'
+                },
+                highlights: {
+                    es: ['Quinta Avenida', 'Cenotes', 'Cozumel', 'Tulum cercano'],
+                    en: ['Fifth Avenue', 'Cenotes', 'Cozumel', 'Nearby Tulum']
+                },
+                imageUrl: '/assets/destinations/playa.jpg',
+                active: true,
+                order: 2
+            },
+            {
+                id: 'tulum',
+                name: { es: 'Tulum', en: 'Tulum' },
+                basePrice: 16000,
+                description: {
+                    es: 'Ruinas mayas frente al mar, playas bohemias y cenotes místicos. Espiritualidad y naturaleza.',
+                    en: 'Mayan ruins by the sea, bohemian beaches, and mystical cenotes. Spirituality and nature.'
+                },
+                highlights: {
+                    es: ['Ruinas arqueológicas', 'Playas vírgenes', 'Cenotes sagrados', 'Yoga y wellness'],
+                    en: ['Archaeological ruins', 'Pristine beaches', 'Sacred cenotes', 'Yoga and wellness']
+                },
+                imageUrl: '/assets/destinations/tulum.jpg',
+                active: true,
+                order: 3
+            },
+            {
+                id: 'cabo',
+                name: { es: 'Cabo San Lucas', en: 'Cabo San Lucas' },
+                basePrice: 18000,
+                description: {
+                    es: 'Donde el desierto se encuentra con el mar. Lujo, aventura y espectaculares puestas de sol.',
+                    en: 'Where the desert meets the sea. Luxury, adventure, and spectacular sunsets.'
+                },
+                highlights: {
+                    es: ['El Arco', 'Avistamiento de ballenas', 'Golf de clase mundial', 'Vida marina'],
+                    en: ['The Arch', 'Whale watching', 'World-class golf', 'Marine life']
+                },
+                imageUrl: '/assets/destinations/cabo.jpg',
+                active: true,
+                order: 4
+            },
+            {
+                id: 'puertovallarta',
+                name: { es: 'Puerto Vallarta', en: 'Puerto Vallarta' },
+                basePrice: 14000,
+                description: {
+                    es: 'Encanto colonial, montañas verdes y playa. Tradición mexicana auténtica con comodidad moderna.',
+                    en: 'Colonial charm, green mountains, and beach. Authentic Mexican tradition with modern comfort.'
+                },
+                highlights: {
+                    es: ['Malecón', 'Zona Romántica', 'Islas Marietas', 'Gastronomía tradicional'],
+                    en: ['Boardwalk', 'Romantic Zone', 'Marietas Islands', 'Traditional cuisine']
+                },
+                imageUrl: '/assets/destinations/vallarta.jpg',
+                active: true,
+                order: 5
+            },
+            {
+                id: 'cdmx',
+                name: { es: 'Ciudad de México', en: 'Mexico City' },
+                basePrice: 10000,
+                description: {
+                    es: 'Historia, cultura, arte y gastronomía de clase mundial. La vibrante capital cultural de México.',
+                    en: 'History, culture, art, and world-class cuisine. Mexico\'s vibrant cultural capital.'
+                },
+                highlights: {
+                    es: ['Teotihuacán', 'Museos de clase mundial', 'Xochimilco', 'Centro Histórico'],
+                    en: ['Teotihuacan', 'World-class museums', 'Xochimilco', 'Historic Center']
+                },
+                imageUrl: '/assets/destinations/cdmx.jpg',
+                active: true,
+                order: 6
+            }
+        ];
+
+        async function addDestinations() {
+            const btn = document.getElementById('addBtn');
+            const status = document.getElementById('status');
+            
+            btn.disabled = true;
+            status.style.display = 'block';
+            status.className = 'loading';
+            status.innerHTML = '⏳ Adding destinations to Firestore...';
+
+            try {
+                const batch = db.batch();
+                const results = [];
+
+                for (const dest of destinations) {
+                    const docRef = db.collection('destinations').doc(dest.id);
+                    batch.set(docRef, {
+                        ...dest,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    results.push(`✓ ${dest.name.es} (${dest.id})`);
+                }
+
+                await batch.commit();
+
+                status.className = 'success';
+                status.innerHTML = `
+                    <strong>✅ Success!</strong><br><br>
+                    Added ${destinations.length} destinations:<br>
+                    <pre>${results.join('\n')}</pre>
+                    <br>
+                    <strong>Next steps:</strong><br>
+                    1. Close this page<br>
+                    2. Refresh your main VIDA Travel site<br>
+                    3. Scroll to "Nuestros destinos" section<br>
+                    4. Destinations should now appear!<br><br>
+                    <a href="/" style="color: #006B5E; font-weight: 600;">← Go to main site</a>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                status.className = 'error';
+                status.innerHTML = `
+                    <strong>❌ Error</strong><br><br>
+                    ${error.message}<br><br>
+                    <strong>Troubleshooting:</strong><br>
+                    1. Check your Firestore security rules<br>
+                    2. Make sure you're authenticated<br>
+                    3. Check browser console for details
+                `;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
+

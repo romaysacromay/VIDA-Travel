@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta Pixel Test - VIDA Travel</title>
+  
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '872606122006111');
+  fbq('track', 'PageView');
+  console.log('✅ Meta Pixel initialized with ID: 872606122006111');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=872606122006111&ev=PageView&noscript=1"
+  /></noscript>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .status {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #10b981;
+      color: white;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    .info {
+      background: #f3f4f6;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .info-item:last-child {
+      border-bottom: none;
+    }
+    
+    .label {
+      font-weight: 600;
+      color: #6b7280;
+    }
+    
+    .value {
+      color: #111827;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .test-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    button {
+      padding: 16px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: #f59e0b;
+      color: white;
+    }
+    
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+    
+    .btn-info {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .console {
+      background: #1f2937;
+      color: #10b981;
+      padding: 20px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    
+    .console-line {
+      margin: 5px 0;
+      padding: 4px 0;
+    }
+    
+    .console-line.error {
+      color: #ef4444;
+    }
+    
+    .console-line.success {
+      color: #10b981;
+    }
+    
+    .console-line.info {
+      color: #60a5fa;
+    }
+    
+    .instructions {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .instructions h3 {
+      color: #92400e;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    .instructions ol {
+      margin-left: 20px;
+      color: #78350f;
+    }
+    
+    .instructions li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Meta Pixel Test Page</h1>
+    <div class="status">● Pixel Active</div>
+    
+    <div class="info">
+      <div class="info-item">
+        <span class="label">Pixel ID:</span>
+        <span class="value">872606122006111</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Status:</span>
+        <span class="value" id="pixelStatus">Checking...</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Events Sent:</span>
+        <span class="value" id="eventCount">0</span>
+      </div>
+    </div>
+    
+    <h3 style="margin: 20px 0 10px 0; color: #333;">Test Events:</h3>
+    <div class="test-buttons">
+      <button class="btn-primary" onclick="testViewContent()">
+        📍 Test ViewContent Event
+      </button>
+      <button class="btn-secondary" onclick="testAddToCart()">
+        🛒 Test AddToCart Event
+      </button>
+      <button class="btn-success" onclick="testInitiateCheckout()">
+        💳 Test InitiateCheckout Event
+      </button>
+      <button class="btn-info" onclick="testPurchase()">
+        ✅ Test Purchase Event
+      </button>
+    </div>
+    
+    <h3 style="margin: 20px 0 10px 0; color: #333;">Console Log:</h3>
+    <div class="console" id="consoleLog">
+      <div class="console-line success">🚀 Meta Pixel Test Page Loaded</div>
+      <div class="console-line success">✅ Pixel initialized with ID: 872606122006111</div>
+      <div class="console-line info">📊 PageView event sent automatically</div>
+    </div>
+    
+    <div class="instructions">
+      <h3>📋 How to Verify in Facebook:</h3>
+      <ol>
+        <li>Open <a href="https://business.facebook.com/events_manager2" target="_blank" style="color: #2563eb; font-weight: 600;">Facebook Events Manager</a></li>
+        <li>Select Pixel ID: <strong>872606122006111</strong></li>
+        <li>Go to the <strong>"Test Events"</strong> tab</li>
+        <li>Click buttons above to send test events</li>
+        <li>Events should appear in Facebook within 20 seconds</li>
+        <li>Check browser DevTools Console (F12) for detailed logs</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    let eventCount = 1; // PageView already sent
+    
+    // Check if fbq is loaded
+    setTimeout(() => {
+      const status = document.getElementById('pixelStatus');
+      if (typeof fbq !== 'undefined') {
+        status.textContent = '✅ Loaded';
+        status.style.color = '#10b981';
+        addLog('✅ Facebook Pixel (fbq) is available', 'success');
+      } else {
+        status.textContent = '❌ Not Loaded';
+        status.style.color = '#ef4444';
+        addLog('❌ Facebook Pixel (fbq) is NOT available', 'error');
+      }
+    }, 2000);
+    
+    function addLog(message, type = 'info') {
+      const consoleLog = document.getElementById('consoleLog');
+      const line = document.createElement('div');
+      line.className = `console-line ${type}`;
+      const timestamp = new Date().toLocaleTimeString();
+      line.textContent = `[${timestamp}] ${message}`;
+      consoleLog.appendChild(line);
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+      
+      // Also log to browser console
+      console.log(message);
+    }
+    
+    function updateEventCount() {
+      eventCount++;
+      document.getElementById('eventCount').textContent = eventCount;
+    }
+    
+    function testViewContent() {
+      if (typeof fbq === 'undefined') {
+        addLog('❌ Facebook Pixel not loaded', 'error');
+        return;
+      }
+      
+      fbq('track', 'ViewContent', {
+        content_name: 'Cancún',
+        content_type: 'destination',
+        content_ids: ['cancun'],
+        value: 15000,
+        currency: 'MXN'
+      });
+      
+      addLog('📍 ViewContent event sent (Destination: Cancún, Value: $15,000 MXN)', 'success');
+      updateEventCount();
+    }
+    
+    function testAddToCart() {
+      if (typeof fbq === 'undefined') {
+        addLog('❌ Facebook Pixel not loaded', 'error');
+        return;
+      }
+      
+      fbq('track', 'AddToCart', {
+        content_name: 'Tulum',
+        content_type: 'vacation_package',
+        content_ids: ['tulum'],
+        value: 20000,
+        currency: 'MXN',
+        num_items: 1
+      });
+      
+      addLog('🛒 AddToCart event sent (Package: Tulum, Value: $20,000 MXN)', 'success');
+      updateEventCount();
+    }
+    
+    function testInitiateCheckout() {
+      if (typeof fbq === 'undefined') {
+        addLog('❌ Facebook Pixel not loaded', 'error');
+        return;
+      }
+      
+      fbq('track', 'InitiateCheckout', {
+        content_name: 'Puerto Vallarta',
+        content_type: 'vacation_package',
+        value: 18000,
+        currency: 'MXN'
+      });
+      
+      addLog('💳 InitiateCheckout event sent (Destination: Puerto Vallarta)', 'success');
+      updateEventCount();
+    }
+    
+    function testPurchase() {
+      if (typeof fbq === 'undefined') {
+        addLog('❌ Facebook Pixel not loaded', 'error');
+        return;
+      }
+      
+      const testTransactionId = 'test_' + Date.now();
+      
+      fbq('track', 'Purchase', {
+        content_name: 'Test Purchase',
+        content_type: 'enrollment_fee',
+        value: 500,
+        currency: 'MXN',
+        transaction_id: testTransactionId
+      });
+      
+      addLog(`✅ Purchase event sent (Value: $500 MXN, TxID: ${testTransactionId})`, 'success');
+      addLog('⭐ This is your PRIMARY CONVERSION EVENT!', 'info');
+      updateEventCount();
+    }
+    
+    // Log all fbq events
+    if (typeof fbq !== 'undefined') {
+      const originalFbq = fbq;
+      window.fbq = function() {
+        // Call original function
+        originalFbq.apply(this, arguments);
+        
+        // Log the call
+        if (arguments[0] === 'track' && arguments[1]) {
+          addLog(`📊 Event tracked via fbq: ${arguments[1]}`, 'info');
+        }
+      };
+      // Copy properties
+      Object.keys(originalFbq).forEach(key => {
+        window.fbq[key] = originalFbq[key];
+      });
+    }
+  </script>
+</body>
+</html>
+

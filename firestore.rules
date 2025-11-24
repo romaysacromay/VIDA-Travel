@@ -1,0 +1,88 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Destinations - Public read, admin write only
+    match /destinations/{destinationId} {
+      allow read: if true;
+      allow write: if false; // Only via Cloud Functions or Firebase Console
+    }
+    
+    // Simulator Sessions - User can read/write their own sessions
+    match /simulator_sessions/{sessionId} {
+      allow read: if true; // Allow reading for analytics
+      allow create: if true; // Allow anonymous session creation
+      allow update: if resource.data.userId == null || 
+                      (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow delete: if false; // No deletes, keep for analytics
+    }
+    
+    // Analytics Events - Create only, read via Cloud Functions
+    match /analytics_events/{eventId} {
+      allow read: if false; // Only Cloud Functions can read
+      allow create: if true; // Anyone can log events
+      allow update, delete: if false;
+    }
+    
+    // Activation Payments - Sensitive data, Cloud Functions only
+    match /activation_payments/{paymentId} {
+      allow read: if isAuthenticated() && 
+                    resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated(); // User initiates, Cloud Function processes
+      allow update: if false; // Only Cloud Functions
+      allow delete: if false;
+    }
+    
+    // Chat Logs - User can read/write their own chat sessions
+    match /chat_logs/{chatId} {
+      allow read: if true; // Allow reading for continuity
+      allow create: if true; // Allow anonymous chat
+      allow update: if resource.data.userId == null || 
+                      (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow delete: if false; // Keep for training/analytics
+    }
+    
+    // Meta Pixel Events - Create only, read via Cloud Functions
+    match /meta_pixel_events/{eventId} {
+      allow read: if false; // Only Cloud Functions
+      allow create: if true; // Track all pixel events
+      allow update, delete: if false;
+    }
+    
+    // Variant Assignments - Track which variant each user sees
+    match /variant_assignments/{assignmentId} {
+      allow read: if true; // Public read for assignment retrieval
+      allow create: if true; // Auto-assign on first visit
+      allow update: if false; // No changes once assigned
+      allow delete: if false;
+    }
+    
+    // User Profiles (if authentication enabled)
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+      allow delete: if false; // Soft delete only
+    }
+    
+    // Exports (BigQuery metadata) - Cloud Functions only
+    match /exports/{exportId} {
+      allow read, write: if false; // Only Cloud Functions
+    }
+    
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,97 @@
+═══════════════════════════════════════════════════════════════
+  VIDA TRAVEL - META PIXEL & CONVERSIONS API QUICK REFERENCE
+═══════════════════════════════════════════════════════════════
+
+📊 PIXEL INFORMATION
+───────────────────────────────────────────────────────────────
+Pixel ID:           872606122006111
+Setup Type:         Dataset Quality API (Recommended)
+Location:           /public/index.html (lines 23-38)
+Status:             ✅ Installed & Configured
+
+
+🔑 CONVERSIONS API
+───────────────────────────────────────────────────────────────
+Endpoint:           /functions/src/metaConversionAPI.ts
+Firebase Config:    meta.pixel_id, meta.access_token
+Status:             ✅ Configured & Ready to Deploy
+
+
+🎯 KEY EVENTS TRACKED
+───────────────────────────────────────────────────────────────
+Event               Trigger                     Value
+───────────────────────────────────────────────────────────────
+PageView            Page load                   -
+ViewContent         Destination view            Package price
+AddToCart           Simulator complete          Package price
+InitiateCheckout    Enrollment button click     Package price
+AddPaymentInfo      Payment method select       $500 MXN
+Purchase ⭐         Activation payment          $500 MXN
+Lead                Form submission             $0
+Contact             Chat interaction            $0
+
+⭐ Purchase is your PRIMARY CONVERSION EVENT for ad optimization
+
+
+🚀 DEPLOYMENT
+───────────────────────────────────────────────────────────────
+Command:            firebase deploy
+Test First:         firebase emulators:start
+Functions Only:     firebase deploy --only functions
+Hosting Only:       firebase deploy --only hosting
+
+
+🧪 TESTING CHECKLIST
+───────────────────────────────────────────────────────────────
+☐ Check browser console for "✅ Meta Pixel initialized"
+☐ Perform actions and verify events in console
+☐ Use Facebook Test Events tool
+☐ Check Firestore collection: meta_conversions_api
+☐ Verify events appear in Facebook Events Manager
+☐ Check match quality score (aim for 6.0+)
+
+
+🔗 IMPORTANT LINKS
+───────────────────────────────────────────────────────────────
+Events Manager:     https://business.facebook.com/events_manager2
+Test Events:        Events Manager → Pixel 872606122006111 → Test Events
+Firebase Console:   https://console.firebase.google.com
+Firestore Data:     Collection: meta_conversions_api
+
+
+⚠️  SECURITY REMINDERS
+───────────────────────────────────────────────────────────────
+✓ Access token is in Firebase config (not in code)
+✓ .env file is in .gitignore (not committed)
+✓ Never share access token publicly
+✓ Token may expire in 60-90 days (check email)
+
+
+📈 FACEBOOK AD SETUP
+───────────────────────────────────────────────────────────────
+Campaign Type:      Conversions
+Conversion Event:   Purchase (Pixel: 872606122006111)
+Target Audience:    Mexico, Age 25-55, Travel interests
+Budget:             Start with $10-20/day
+Placements:         Facebook & Instagram feeds
+
+
+🆘 TROUBLESHOOTING
+───────────────────────────────────────────────────────────────
+No events?          Check console, disable ad blockers
+API errors?         firebase functions:log --only metaConversionAPI
+Config issues?      firebase functions:config:get
+Token invalid?      Regenerate in Meta Business Suite
+
+
+📞 NEED HELP?
+───────────────────────────────────────────────────────────────
+See: META_PIXEL_SETUP.md (full documentation)
+See: DEPLOYMENT_CHECKLIST.md (step-by-step guide)
+
+
+═══════════════════════════════════════════════════════════════
+Last Updated: November 21, 2025
+Ready for Production: ✅ YES
+═══════════════════════════════════════════════════════════════
+

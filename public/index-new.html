@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Viaja ahora, paga después. Crédito vacacional transparente y sin intereses para familias mexicanas.">
+    <title>VIDA - Crédito Vacacional Sin Intereses</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+    /></noscript>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/styles-new.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-remote-config-compat.js"></script>
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <img src="/assets/Logo_1.0.png" alt="VIDA" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="logo-text">VIDA</span>
+            </a>
+            <button class="lang-toggle" id="langToggle">
+                <span data-lang-key="nav-lang">EN</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="badge" data-lang-key="hero-badge">✨ Ahora disponible en México</div>
+                <h1 class="hero-title" data-lang-key="hero-title">
+                    Un plan simple.<br>Sin sorpresas.
+                </h1>
+                <p class="hero-subtitle" data-lang-key="hero-subtitle">
+                    Viaja por México desde <strong>$10,000 MXN</strong>. Sin intereses, sin trampas.
+                </p>
+                <button class="btn-primary btn-large" id="heroCtaBtn" data-lang-key="hero-cta">
+                    Planifica tu viaje
+                </button>
+                
+                <!-- Hero Visual -->
+                <div class="hero-visual">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="mock-header">
+                                <div class="mock-time">9:41</div>
+                                <div class="mock-signal">📶</div>
+                            </div>
+                            <div class="mock-content">
+                                <div class="mock-destination">🏖️ Cancún</div>
+                                <div class="mock-price">$15,000</div>
+                                <div class="mock-savings">Ahorra: $1,000/semana</div>
+                                <div class="mock-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-fill"></div>
+                                    </div>
+                                    <div class="mock-date">Viaja: 15 semanas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Benefits -->
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💰</div>
+                        <div class="benefit-text" data-lang-key="benefit-1">Ahorra 100% antes de viajar</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🏝️</div>
+                        <div class="benefit-text" data-lang-key="benefit-2">6 destinos increíbles</div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✅</div>
+                        <div class="benefit-text" data-lang-key="benefit-3">Cancela cuando quieras</div>
+                    </div>
+                </div>
+                
+                <div class="disclaimer" data-lang-key="hero-disclaimer">
+                    *Sujeto a términos y condiciones
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-lang-key="hiw-title">Tu viaje, tu ritmo.</h2>
+                    <p data-lang-key="hiw-subtitle">
+                        Empieza en 2 minutos.<br>Activa desde cualquier lugar.
+                    </p>
+                </div>
+
+                <!-- Pricing Card -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-label" data-lang-key="pricing-label">Precio del paquete</div>
+                        <div class="pricing-amount" id="pricingAmount">$15,000</div>
+                        <div class="pricing-details">
+                            <div class="pricing-row">
+                                <span data-lang-key="pricing-savings">Ahorro semanal</span>
+                                <span data-lang-key="pricing-deposit">Tu decides</span>
+                            </div>
+                            <div class="pricing-row">
+                                <span data-lang-key="pricing-timeline">Tiempo estimado</span>
+                                <span data-lang-key="pricing-weeks">10-20 semanas</span>
+                            </div>
+                            <div class="pricing-row">
+                                <span data-lang-key="pricing-credit">Crédito post-viaje</span>
+                                <span data-lang-key="pricing-optional">Opcional 20%</span>
+                            </div>
+                        </div>
+                        <div class="pricing-badge">
+                            <span class="badge-icon">✓</span>
+                            <span data-lang-key="pricing-all">Todo incluido</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Cards -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-1-title">Simple</h3>
+                        <p data-lang-key="feature-1-desc">Un plan transparente sin cargos ocultos ni intereses complicados.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-2-title">Rápido y fácil</h3>
+                        <p data-lang-key="feature-2-desc">Comienza en minutos. Solo necesitas tu información básica.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 data-lang-key="feature-3-title">Para todos</h3>
+                        <p data-lang-key="feature-3-desc">Sin score de crédito. Sin trámites complicados. Solo tu compromiso.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Destinations -->
+        <section class="destinations">
+            <div class="container">
+                <div class="section-eyebrow" data-lang-key="dest-eyebrow">El mundo es tuyo</div>
+                <h2 class="section-title" data-lang-key="dest-title">
+                    ¿Nuestros destinos?<br>Nos alegra que preguntes.
+                </h2>
+                <p class="section-subtitle" data-lang-key="dest-subtitle">
+                    Experimenta los mejores destinos de México. Desde playas caribeñas hasta ciudades coloniales.
+                </p>
+
+                <div class="destinations-grid" id="destinationsGrid">
+                    <!-- Destinations will be loaded dynamically -->
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                    </div>
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                    </div>
+                    <div class="destination-card skeleton">
+                        <div class="dest-image skeleton-img"></div>
+                        <div class="dest-name skeleton-text"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="testimonials-title">Lo aman, tú también lo harás</h2>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-1-quote">
+                            "Un cambio total para las familias mexicanas"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-1-author">María G.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-2-quote">
+                            "Sin más estrés por ahorrar. Todo está planificado"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-2-author">Carlos R.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote" data-lang-key="testimonial-3-quote">
+                            "Legítimamente la mejor experiencia de crédito"
+                        </p>
+                        <div class="testimonial-author" data-lang-key="testimonial-3-author">Ana L.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq">
+            <div class="container">
+                <div class="section-eyebrow" data-lang-key="faq-eyebrow">Preguntas</div>
+                <h2 class="section-title" data-lang-key="faq-title">¿Tienes preguntas? Aquí las respuestas.</h2>
+                
+                <div class="faq-list" id="faqList">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-1-q">¿Qué es VIDA?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-1-a">VIDA es un plan de crédito vacacional simple y transparente. Ahorras 100% del costo antes de viajar, con opción de crédito post-viaje del 20%. Sin intereses, sin cargos ocultos.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-2-q">¿A qué destinos puedo viajar?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-2-a">Estamos activos en 6 destinos premium de México: Cancún, Playa del Carmen, Tulum, Cabo San Lucas, Puerto Vallarta y Ciudad de México.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-3-q">¿Puedo cambiar mi plan de ahorro?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-3-a">Sí, puedes ajustar tus depósitos semanales en cualquier momento. El sistema recalculará automáticamente tu fecha de viaje disponible.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-4-q">¿Necesito historial crediticio?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-4-a">No. VIDA está diseñado para ser accesible para todos. Solo necesitas tu compromiso de ahorro y un depósito de activación de $50 MXN.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-5-q">¿Cuánto cuesta?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-5-a">Los paquetes empiezan desde $10,000 MXN. Solo pagas el costo del viaje + $50 MXN de activación. Sin intereses, sin mensualidades.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span data-lang-key="faq-6-q">¿Puedo cancelar en cualquier momento?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p data-lang-key="faq-6-a">Sí. Sin contratos, sin penalizaciones. Puedes cancelar cuando quieras y recuperar tus ahorros (menos tarifas administrativas).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Steps CTA -->
+        <section class="steps-cta">
+            <div class="container">
+                <div class="steps-content">
+                    <h3 class="steps-title" data-lang-key="steps-title">Empieza en 2 minutos</h3>
+                    <ol class="steps-list">
+                        <li class="step-item">
+                            <span class="step-number">1</span>
+                            <span class="step-text" data-lang-key="step-1">Elige destino</span>
+                        </li>
+                        <li class="step-item">
+                            <span class="step-number">2</span>
+                            <span class="step-text" data-lang-key="step-2">Planifica ahorro</span>
+                        </li>
+                        <li class="step-item">
+                            <span class="step-number">3</span>
+                            <span class="step-text" data-lang-key="step-3">¡A viajar!</span>
+                        </li>
+                    </ol>
+                    <div class="steps-note">
+                        <span data-lang-key="steps-note">Sí, lo cronometramos.</span>
+                        <span class="note-emoji">⏱️</span>
+                    </div>
+                </div>
+
+                <div class="cta-card">
+                    <div class="cta-content">
+                        <h3 class="cta-title" data-lang-key="cta-title">
+                            Un plan,<br>un precio.
+                        </h3>
+                        <div class="cta-price">$50</div>
+                        <div class="cta-period" data-lang-key="cta-period">Activación única</div>
+                    </div>
+                    <button class="btn-primary btn-large" id="ctaBtn" data-lang-key="cta-button">
+                        Planifica tu viaje
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="/assets/Logo_1.0.png" alt="VIDA" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="logo-text">VIDA</span>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-1">Lo Bueno</div>
+                    <a href="/" class="footer-link" data-lang-key="footer-home">Inicio</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-about">Nosotros</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-destinations">Destinos</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-careers">Carreras</a>
+                </div>
+
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-2">Lo Legal</div>
+                    <a href="#" class="footer-link" data-lang-key="footer-terms">Términos</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-rules">Las Reglas</a>
+                    <a href="#" class="footer-link" data-lang-key="footer-privacy">Privacidad</a>
+                </div>
+
+                <div class="footer-section">
+                    <div class="footer-heading" data-lang-key="footer-heading-3">Lo Social</div>
+                    <a href="#" class="footer-link">Instagram</a>
+                    <a href="#" class="footer-link">Facebook</a>
+                    <a href="#" class="footer-link">Twitter</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-cta-card">
+                    <h3 class="footer-cta-title" data-lang-key="footer-cta-title">Un plan, un precio.</h3>
+                    <div class="footer-cta-price">$50</div>
+                    <div class="footer-cta-period" data-lang-key="footer-cta-period">Activación</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Mobile CTA -->
+    <div class="mobile-cta" id="mobileCtaBar">
+        <button class="btn-primary btn-block" id="mobileCtaBtn" data-lang-key="mobile-cta">
+            Planifica tu viaje
+        </button>
+    </div>
+
+    <!-- Simulator Modal -->
+    <div class="modal" id="simulatorModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Simulator content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/js/app-new.js"></script>
+</body>
+</html>
+

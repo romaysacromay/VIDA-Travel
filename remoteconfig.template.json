@@ -1,0 +1,116 @@
+{
+  "conditions": [
+    {
+      "name": "control_variant",
+      "expression": "percent <= 34"
+    },
+    {
+      "name": "pricing_high_variant",
+      "expression": "percent > 34 && percent <= 56"
+    },
+    {
+      "name": "pricing_low_variant",
+      "expression": "percent > 56 && percent <= 78"
+    },
+    {
+      "name": "loan_30_variant",
+      "expression": "percent > 78"
+    }
+  ],
+  "parameters": {
+    "variant_control": {
+      "defaultValue": {
+        "value": "{\"variant_id\":\"control\",\"distribution\":0.34,\"package_price_multiplier\":1.0,\"loan_percentage\":0.20,\"theme_color\":\"#2563eb\",\"messaging_headline_es\":\"0% de Interés Garantizado\",\"messaging_headline_en\":\"0% Interest Guaranteed\",\"bonus_incentive\":0}"
+      },
+      "description": "Control variant configuration (34% traffic)",
+      "valueType": "JSON"
+    },
+    "variant_pricing_high": {
+      "defaultValue": {
+        "value": "{\"variant_id\":\"pricing_high\",\"distribution\":0.22,\"package_price_multiplier\":1.15,\"loan_percentage\":0.20,\"theme_color\":\"#7c3aed\",\"messaging_headline_es\":\"Viaja Ahora + $500 de Bonificación\",\"messaging_headline_en\":\"Travel Now + $500 Bonus\",\"bonus_incentive\":500}"
+      },
+      "description": "Pricing High variant (+15% price, $500 bonus) (22% traffic)",
+      "valueType": "JSON"
+    },
+    "variant_pricing_low": {
+      "defaultValue": {
+        "value": "{\"variant_id\":\"pricing_low\",\"distribution\":0.22,\"package_price_multiplier\":0.85,\"loan_percentage\":0.20,\"theme_color\":\"#059669\",\"messaging_headline_es\":\"Precio Especial - 15% de Descuento\",\"messaging_headline_en\":\"Special Price - 15% Off\",\"bonus_incentive\":0}"
+      },
+      "description": "Pricing Low variant (-15% price) (22% traffic)",
+      "valueType": "JSON"
+    },
+    "variant_loan_30": {
+      "defaultValue": {
+        "value": "{\"variant_id\":\"loan_30\",\"distribution\":0.22,\"package_price_multiplier\":1.0,\"loan_percentage\":0.30,\"theme_color\":\"#dc2626\",\"messaging_headline_es\":\"¡30% de Crédito Sin Interés!\",\"messaging_headline_en\":\"30% Interest-Free Credit!\",\"bonus_incentive\":0}"
+      },
+      "description": "Loan 30% variant (30% loan option) (22% traffic)",
+      "valueType": "JSON"
+    },
+    "feature_chat_enabled": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Enable/disable Gemini chat widget",
+      "valueType": "BOOLEAN"
+    },
+    "feature_date_picker_enabled": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Enable/disable date selection (if false, contact support required)",
+      "valueType": "BOOLEAN"
+    },
+    "enrollment_fee": {
+      "defaultValue": {
+        "value": "500"
+      },
+      "description": "Enrollment fee amount in MXN",
+      "valueType": "NUMBER"
+    },
+    "max_children": {
+      "defaultValue": {
+        "value": "8"
+      },
+      "description": "Maximum number of children per booking",
+      "valueType": "NUMBER"
+    },
+    "min_vacation_nights": {
+      "defaultValue": {
+        "value": "3"
+      },
+      "description": "Minimum vacation length in nights",
+      "valueType": "NUMBER"
+    },
+    "max_vacation_nights": {
+      "defaultValue": {
+        "value": "14"
+      },
+      "description": "Maximum vacation length in nights",
+      "valueType": "NUMBER"
+    },
+    "payment_cap_percentage": {
+      "defaultValue": {
+        "value": "0.15"
+      },
+      "description": "Maximum monthly payment as percentage of salary",
+      "valueType": "NUMBER"
+    },
+    "loan_repayment_months": {
+      "defaultValue": {
+        "value": "12"
+      },
+      "description": "Loan repayment period in months",
+      "valueType": "NUMBER"
+    }
+  },
+  "version": {
+    "versionNumber": "1",
+    "updateTime": "2024-11-18T00:00:00Z",
+    "updateUser": {
+      "email": "admin@vidatravel.com"
+    },
+    "updateOrigin": "CONSOLE",
+    "updateType": "INCREMENTAL_UPDATE"
+  }
+}
+
